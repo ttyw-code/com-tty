@@ -135,8 +135,8 @@
 </template>
 
 <script setup lang="ts">
-for (const element of [1,5,9]) {
-    console.log(element);
+for (const element of [1, 5, 9]) {
+  console.log(element)
 }
 </script>
 
