@@ -134,7 +134,11 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+for (const element of [1,5,9]) {
+    console.log(element);
+}
+</script>
 
 <style scoped lang="scss">
 @layer library, reset, base, demo;

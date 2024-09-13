@@ -10,7 +10,8 @@
     "lint": "eslint src",
     "fix": "eslint src --fix",
     "format": "prettier --write \"./**/*.{html,vue,ts,js,json,md}\"",
-    "lint:eslint": "eslint src/**/*.{ts,vue} --cache --fix"
+    "lint:eslint": "eslint src/**/*.{ts,vue} --cache --fix",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^8.5.0",
@@ -28,6 +29,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-vue": "^9.28.0",
     "globals": "^15.9.0",
+    "husky": "^8.0.0",
     "prettier": "^3.3.3",
     "typescript": "5.5.3",
     "typescript-eslint": "^8.5.0",

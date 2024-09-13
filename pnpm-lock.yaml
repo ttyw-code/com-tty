@@ -48,6 +48,9 @@ importers:
       globals:
         specifier: ^15.9.0
         version: 15.9.0
+      husky:
+        specifier: ^9.1.6
+        version: 9.1.6
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
@@ -768,6 +771,11 @@ packages:
 
   he@1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
+    hasBin: true
+
+  husky@9.1.6:
+    resolution: {integrity: sha512-sqbjZKK7kf44hfdE94EoX8MZNk0n7HeW37O4YrVGCF4wzgQjp+akPAkfUK5LZ6KuR/6sqeAVuXHji+RzQgOn5A==}
+    engines: {node: '>=18'}
     hasBin: true
 
   ignore@5.3.2:
@@ -1805,6 +1813,8 @@ snapshots:
   has-flag@4.0.0: {}
 
   he@1.2.0: {}
+
+  husky@9.1.6: {}
 
   ignore@5.3.2: {}
 
