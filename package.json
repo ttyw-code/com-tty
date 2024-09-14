@@ -11,7 +11,8 @@
     "fix": "eslint src --fix",
     "format": "prettier --write \"./**/*.{html,vue,ts,js,json,md}\"",
     "lint:eslint": "eslint src/**/*.{ts,vue} --cache --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "commitlint": "commitlint --config commitlint.config.cjs -e -V"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^8.5.0",
@@ -21,6 +22,8 @@
     "vue-router": "^4.4.4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
     "@eslint/js": "^9.10.0",
     "@types/three": "^0.168.0",
     "@vitejs/plugin-vue": "^5.1.2",
@@ -29,7 +32,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-vue": "^9.28.0",
     "globals": "^15.9.0",
-    "husky": "^8.0.0",
+    "husky": "^8.0.3",
     "prettier": "^3.3.3",
     "typescript": "5.5.3",
     "typescript-eslint": "^8.5.0",
