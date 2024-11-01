@@ -1,7 +1,7 @@
 import { createMemoryHistory, createRouter } from 'vue-router'
-import Periodict from '../components/periodict-table.vue'
-import Other from '../components/com-other.vue'
-import Home from '../components/com-home.vue'
+import Periodict from '@/components/periodict-table.vue'
+import Other from '@/components/com-other.vue'
+import Home from '@/components/com-home.vue'
 
 const routes = [
   { path: '/other', component: Other },

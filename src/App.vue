@@ -1,6 +1,8 @@
 <script setup lang="ts"></script>
 
 <template>
+  <el-button type="primary">my button</el-button>
+  <svg-icon name="window" width="100px" height="100px"></svg-icon>
   <p>
     <strong>Current route path:</strong>
     {{ $route.fullPath }}
