@@ -27,6 +27,6 @@ main {
 
 nav > a + a {
   margin-left: 10px;
-  color: $color
+  color: $color;
 }
 </style>
