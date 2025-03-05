@@ -21,8 +21,11 @@
     "@element-plus/icons-vue": "^2.3.1",
     "@typescript-eslint/eslint-plugin": "^8.5.0",
     "@typescript-eslint/parser": "^8.5.0",
+    "axios": "^1.7.7",
     "element-plus": "^2.8.6",
+    "mockjs": "^1.1.0",
     "three": "^0.168.0",
+    "vite-plugin-mock": "^2.9.5",
     "vue": "^3.4.37",
     "vue-router": "^4.4.4"
   },

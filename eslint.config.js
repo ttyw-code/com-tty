@@ -18,7 +18,9 @@ export default [
     rules: {
       'no-var': 'error', // 要求使用 let 或 const 而不是 var
       'no-multiple-empty-lines': ['warn', { max: 1 }], // 不允许多个空行
+      // eslint-disable-next-line no-undef
       'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+      // eslint-disable-next-line no-undef
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
       'no-unexpected-multiline': 'error', // 禁止空余的多行
       'no-useless-escape': 'off', // 禁止不必要的转义字符

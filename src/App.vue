@@ -17,7 +17,7 @@
   </main>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 nav,
 main {
   padding: 10px;
@@ -27,5 +27,6 @@ main {
 
 nav > a + a {
   margin-left: 10px;
+  color: $color
 }
 </style>
