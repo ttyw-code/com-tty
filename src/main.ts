@@ -1,5 +1,7 @@
 import { createApp } from 'vue'
-import './style.css'
+// import './style.css';
+
+import './styles/index.scss' //全局样式
 import App from './App.vue'
 import router from './route/router'
 //引入element-plus
@@ -11,7 +13,7 @@ import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 import 'virtual:svg-icons-register'
 
-import gloablComponent from './components/index'
+import gloablComponent from '@/components/index'
 
 console.log(import.meta.env)
 

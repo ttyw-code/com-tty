@@ -826,15 +826,15 @@ function render() {
 
 <style scoped lang="scss">
 #container {
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
+  width: 100%;
+  height: 100%;
+  margin: auto;
   background-color: #000;
 }
 
 #menu {
   position: fixed;
-  bottom: 20px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
 }
