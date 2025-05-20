@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Periodict from '@/components/periodict.vue'
-import Other from '@/components/other.vue'
+import AspectRatio from '@/components/aspectRatio.vue'
 import Home from '@/components/home.vue'
 import Login from '@/components/login.vue'
 
 const routes = [
-  { path: '/other', component: Other },
+  { path: '/aspectRatio', component: AspectRatio },
   { path: '/periodict', component: Periodict },
   { path: '/home', component: Home },
   { path: '/login', component: Login },

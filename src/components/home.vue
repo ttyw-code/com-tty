@@ -1,13 +1,11 @@
 <template>
-  <div>
-    <h1>home page !</h1>
-  </div>
+  <div id="container">this is home page!</div>
 </template>
 
-<script setup lang="ts">
-import { onMounted } from 'vue'
+<script setup lang="ts"></script>
 
-onMounted(() => {})
-</script>
-
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+#container {
+  margin: 0;
+}
+</style>
