@@ -3,6 +3,7 @@
     <div class="inner-container">
       <div class="content">
         <h1>保持宽高固定比例解决方案</h1>
+        <h2>x:{{ x }},y:{{ y }}</h2>
       </div>
     </div>
   </div>
@@ -10,6 +11,9 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
+import { useMouse } from '@/utils/catchMouse'
+
+const { x, y } = useMouse();
 
 onMounted(() => {})
 </script>
@@ -33,6 +37,10 @@ onMounted(() => {})
   h1 {
     text-align: center;
     padding-top: 15%;
+  }
+  h2 {
+    text-align: center;
+    padding-top: 5%;
   }
 }
 </style>

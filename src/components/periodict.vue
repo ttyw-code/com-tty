@@ -52,8 +52,7 @@ import {
   CSS3DRenderer,
   CSS3DObject,
 } from 'three/addons/renderers/CSS3DRenderer.js'
-import { onMounted, ref } from 'vue'
-
+import { onMounted, ref, useTemplateRef} from 'vue'
 const table = [
   'H',
   'Hydrogen',
@@ -658,7 +657,7 @@ const targets = {
   grid: [] as THREE.Object3D[],
 }
 
-let containerRef = ref<HTMLElement>()
+let containerRef = useTemplateRef('containerRef');
 let tableRef = ref(null)
 let sphereRef = ref(null)
 let helixRef = ref(null)
