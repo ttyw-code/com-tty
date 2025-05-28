@@ -13,7 +13,7 @@
 import { onMounted } from 'vue'
 import { useMouse } from '@/utils/catchMouse'
 
-const { x, y } = useMouse();
+const { x, y } = useMouse()
 
 onMounted(() => {})
 </script>
