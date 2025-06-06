@@ -1,4 +1,7 @@
-* {
+*,
+*::before,
+*::after 
+{
     box-sizing: border-box;
     background-repeat: no-repeat;
     -webkit-tap-highlight-color: rgba(0,0,0,0);

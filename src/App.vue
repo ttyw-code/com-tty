@@ -10,7 +10,7 @@
   <nav class="navbar">
     <RouterLink to="/periodict">Go to periodict</RouterLink>
     <RouterLink to="/aspectRatio">Go to other</RouterLink>
-    <RouterLink to="/home">Go to home</RouterLink>
+    <RouterLink to="/example">Go to example</RouterLink>
     <RouterLink to="/login">Go to login</RouterLink>
   </nav>
   <main>

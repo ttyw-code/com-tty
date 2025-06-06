@@ -42,5 +42,16 @@ export default defineConfig(({ command }) => {
         },
       },
     },
+
+    server: {
+      //代理服务器
+      proxy: {
+        '/api': {
+          target: 'http://localhost:5000', // 代理目标地址
+          changeOrigin: true, // 是否改变源
+          rewrite: (path: string) => path.replace(/^\/api/, ''), // 重写路径
+        },
+      },
+    },
   }
 })

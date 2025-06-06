@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Periodict from '@/components/periodict.vue'
 import AspectRatio from '@/components/aspectRatio.vue'
-import Home from '@/components/home.vue'
+import Example from '@/components/exmaple.vue'
 import Login from '@/components/login.vue'
 
 const routes = [
   { path: '/aspectRatio', component: AspectRatio },
   { path: '/periodict', component: Periodict },
-  { path: '/home', component: Home },
+  { path: '/example', component: Example },
   { path: '/login', component: Login },
   { path: '/', redirect: '/login' }, // 默认重定向到 /home
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: Login }, // 404 页面
