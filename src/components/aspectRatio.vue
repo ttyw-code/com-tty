@@ -33,7 +33,7 @@ onMounted(() => {})
 .content {
   position: absolute;
   inset: 0;
-  background-color: #efefef;
+  background-color: yellowgreen;
   h1 {
     text-align: center;
     padding-top: 15%;
