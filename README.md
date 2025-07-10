@@ -1,1 +1,3 @@
-# a periodic table
+# introduction
+
+    a personal practice project
