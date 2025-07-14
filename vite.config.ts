@@ -53,10 +53,10 @@ export default defineConfig(({ command }) => {
         },
       },
     },
-    // base:
-    //   process.env.NODE_ENV === 'production'
-    //     ? '/com-tty/' // 替换为你的仓库名
-    //     : '/',
+    base:
+      process.env.NODE_ENV === 'production'
+        ? '/com-tty/' // 替换为你的仓库名
+        : '/',
     build: {
       outDir: 'dist',
     },
