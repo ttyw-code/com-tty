@@ -41,7 +41,7 @@ jobs:
           node-version: lts/*
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --ignore-workspace
       - name: Build
         run: pnpm run build
       - name: Setup Pages
