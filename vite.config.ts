@@ -53,8 +53,8 @@ export default defineConfig(({ command }) => {
         },
       },
     },
-    build:{
-      outDir: 'dist'
-    }
+    build: {
+      outDir: 'dist',
+    },
   }
 })
