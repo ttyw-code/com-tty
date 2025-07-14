@@ -1,21 +1,6 @@
 <template name="example">
   <div class="login-container">
-    <div class="icon-img">
-      <img
-        decoding="async"
-        width="2000"
-        height="2000"
-        sizes="107px"
-        srcset="
-          https://framerusercontent.com/images/UJS7jrEmvPiNW5Ab1zbEqxq4A.png?scale-down-to=512   512w,
-          https://framerusercontent.com/images/UJS7jrEmvPiNW5Ab1zbEqxq4A.png?scale-down-to=1024 1024w,
-          https://framerusercontent.com/images/UJS7jrEmvPiNW5Ab1zbEqxq4A.png                    2000w
-        "
-        src="https://framerusercontent.com/images/UJS7jrEmvPiNW5Ab1zbEqxq4A.png"
-        alt=""
-      />
-    </div>
-    <div class="login-title">CORN LOGIN</div>
+    <div class="login-title">LOGIN</div>
     <div class="login-form">
       <div class="login-form-item">
         <!-- <label for="username">Username</label> -->
@@ -80,17 +65,6 @@ const password = ref('')
   width: 100%;
   height: 100%;
   background-color: #f5f5f5;
-}
-.icon-img {
-  margin-bottom: 2rem;
-  img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    object-position: center center;
-    object-fit: cover;
-  }
 }
 .login-title {
   font-size: 2rem;

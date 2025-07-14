@@ -9,8 +9,8 @@ const routes = [
   { path: '/periodict', component: Periodict },
   { path: '/example', component: Example },
   { path: '/login', component: Login },
-  { path: '/', redirect: '/login' }, // 默认重定向到 /home
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: Login }, // 404 页面
+  { path: '/', redirect: '/periodict' }, // 默认重定向到 /periodict
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: Periodict }, // 404 页面
 ]
 
 const router = createRouter({

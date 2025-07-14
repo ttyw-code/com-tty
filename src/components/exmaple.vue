@@ -17,11 +17,11 @@
 import { ref, watch, onMounted, computed } from 'vue'
 import request from '../utils/request'
 
-function changeValue() {
-  setTimeout(() => {
-    myRef.value = Math.ceil(Math.random() * 100)
-  }, 10000)
-}
+// function changeValue() {
+//   setTimeout(() => {
+//     myRef.value = Math.ceil(Math.random() * 100)
+//   }, 10000)
+// }
 
 const users = ref(
   [] as Array<{
@@ -68,13 +68,13 @@ function postUU() {
 }
 
 onMounted(() => {
-  getUU()
-  changeValue()
-  ;(function () {
-    const path = 'http://localhost:3000/api/users/123'
-    const catPath = path.replace(/\/api/, '')
-    console.log('catPath: ', catPath)
-  })()
+  // getUU()
+  // changeValue()
+  // ;(function () {
+  //   const path = 'http://localhost:3000/api/users/123'
+  //   const catPath = path.replace(/\/api/, '')
+  //   console.log('catPath: ', catPath)
+  // })()
 })
 
 const myRef = ref(0)
