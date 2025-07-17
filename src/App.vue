@@ -1,12 +1,6 @@
 <script setup lang="ts"></script>
 
 <template>
-  <!-- <el-button type="primary">my button</el-button> -->
-  <!-- <svg-icon name="window" width="100px" height="100px"></svg-icon> -->
-  <!-- <p>
-    <strong>Current route path:</strong>
-    {{ $route.fullPath }}
-  </p> -->
   <nav class="navbar">
     <RouterLink to="/periodict">Go to periodict</RouterLink>
     <RouterLink to="/aspectRatio">Go to other</RouterLink>
@@ -23,11 +17,9 @@ main {
   position: absolute;
   top: 60px;
   display: flex;
-  // justify-content: center;
-  // align-items: center;
   width: 100vw;
   height: calc(100vh - 60px);
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 nav {

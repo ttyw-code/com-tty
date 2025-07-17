@@ -2,6 +2,8 @@
   <div id="container">this is example page!</div>
   <div>myRef: {{ myRef }}</div>
   <div>myDbRef: {{ db_value }}</div>
+  <svg-icon name="window" width="36px" height="36px"></svg-icon>
+  <svg-icon name="return" width="36px" height="36px"></svg-icon>
   <div class="user-list">
     <ul>
       <li v-for="(item, index) in users" :key="index">
@@ -11,6 +13,7 @@
     </ul>
   </div>
   <el-button class="button" type="primary" @click="postUU">postUU</el-button>
+  <!-- <el-button class="button" type="primary" @click="">getWebsocketMsg</el-button> -->
 </template>
 
 <script setup lang="ts">

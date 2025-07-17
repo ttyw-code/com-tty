@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import path from 'path'
+import { resolve } from 'node:path'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons' //vite svg plugin
 import { viteMockServe } from 'vite-plugin-mock'
 import inspect from 'vite-plugin-inspect' // vite inspect plugin
@@ -9,16 +9,20 @@ import inspect from 'vite-plugin-inspect' // vite inspect plugin
 export default defineConfig(({ command }) => {
   // console.log('inspect', inspect())
   // console.log('vue', vue())
-  // console.log('mode:', mode)
+  // console.log('mode:', mode);
+
   // console.log('isPreview:', isPreview)
   // console.log('isSsrBuild:', isSsrBuild)
   return {
+    define: {
+      global: 'window',
+    },
     plugins: [
       inspect(),
       vue(),
       createSvgIconsPlugin({
         // Specify the icon folder to be cached
-        iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
+        iconDirs: [resolve(process.cwd(), 'src/assets/icons')],
         // Specify symbolId format
         symbolId: 'icon-[dir]-[name]',
       }),
@@ -29,7 +33,7 @@ export default defineConfig(({ command }) => {
     ],
     resolve: {
       alias: {
-        '@': path.resolve('./src'), // 相对路径别名配置，使用 @ 代替 src
+        '@': resolve(__dirname, 'src'), // 相对路径别名配置，使用 @ 代替 src
       },
     },
 

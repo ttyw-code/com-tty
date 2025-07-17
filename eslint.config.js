@@ -26,11 +26,12 @@ export default [
       'no-useless-escape': 'off', // 禁止不必要的转义字符
 
       // typeScript (https://typescript-eslint.io/rules)
+      '@typescript-eslint/no-require-imports': 'off',
       '@typescript-eslint/no-unused-vars': 'error', // 禁止定义未使用的变量
       '@typescript-eslint/prefer-ts-expect-error': 'error', // 禁止使用 @ts-ignore
       '@typescript-eslint/no-explicit-any': 'off', // 禁止使用 any 类型
       '@typescript-eslint/no-non-null-assertion': 'off',
-      '@typescript-eslint/no-namespace': 'off', // 禁止使用自定义 TypeScript 模块和命名空间。
+      // '@typescript-eslint/no-namespace': 'off', // 禁止使用自定义 TypeScript 模块和命名空间。
       '@typescript-eslint/semi': 'off',
 
       // eslint-plugin-vue (https://eslint.vuejs.org/rules/)

@@ -48,12 +48,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const rememberPwd = ref(false)
 const isAgree = ref(false)
 const username = ref('')
 const password = ref('')
+
+onMounted(() => {})
 </script>
 
 <style scoped lang="scss">

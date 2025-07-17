@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 // import './style.css';
 
-import './styles/index.scss' //全局样式
 import App from './App.vue'
 import router from './route/router'
 //引入element-plus
@@ -11,13 +10,13 @@ import 'element-plus/dist/index.css'
 //@ts-expect-error
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
-import 'virtual:svg-icons-register'
+import 'virtual:svg-icons-register' //@use   <!-- <svg-icon name="window" width="100px" height="100px"></svg-icon> -->
 
 import gloablComponent from '@/components/index'
 
-console.log(import.meta.env)
+import webSocketManager from '@/utils/webSocket/webSocketManager.js'
 
-const app = createApp(App).use(router)
+const app = createApp(App).use(router).use(webSocketManager)
 app.use(ElementPlus, {
   locale: zhCn,
 })
