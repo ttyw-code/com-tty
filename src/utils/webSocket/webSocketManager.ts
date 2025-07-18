@@ -1,10 +1,7 @@
 import SockJS from 'sockjs-client'
 
-type WSCallback = (msg: any) => void
-
-class WebSocketManager<K extends string, V extends WSCallback> {
+class WebSocketManager {
   private sockjs: WebSocket | undefined = undefined
-  private subscribeMap = new Map<K, V>()
 
   constructor() {}
 
