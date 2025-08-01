@@ -1,3 +1,4 @@
+import type { RouteRecordRaw, Router } from 'vue-router'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Periodict from '@/components/periodict.vue'
 import AspectRatio from '@/components/aspectRatio.vue'
@@ -5,7 +6,7 @@ import Example from '@/components/exmaple.vue'
 import Login from '@/components/login.vue'
 import Home from '@/components/home/index.vue'
 
-const routes = [
+const routes: RouteRecordRaw[] = [
   { path: '/aspectRatio', component: AspectRatio },
   { path: '/periodict', component: Periodict },
   { path: '/example', component: Example },
@@ -15,7 +16,7 @@ const routes = [
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: Home }, // 404 页面
 ]
 
-const router = createRouter({
+const router: Router = createRouter({
   history: createWebHashHistory(),
   routes,
 })

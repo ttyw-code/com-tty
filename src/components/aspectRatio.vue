@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { useMouse } from '@/utils/catchMouse'
 
 const { x, y } = useMouse()

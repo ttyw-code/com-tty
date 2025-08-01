@@ -1,7 +1,7 @@
 import globals from 'globals'
 import pluginJs from '@eslint/js'
 import tseslint from 'typescript-eslint'
-import pluginVue from 'eslint-plugin-vue'
+// import pluginVue from 'eslint-plugin-vue'
 
 export default [
   { ignores: ['.dist/*', '**/node_modules/'] },
@@ -9,7 +9,7 @@ export default [
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
-  ...pluginVue.configs['flat/essential'],
+  // ...pluginVue.configs['flat/essential'],
   {
     files: ['**/*.vue'],
     languageOptions: { parserOptions: { parser: tseslint.parser } },
@@ -33,6 +33,7 @@ export default [
       '@typescript-eslint/no-non-null-assertion': 'off',
       // '@typescript-eslint/no-namespace': 'off', // 禁止使用自定义 TypeScript 模块和命名空间。
       '@typescript-eslint/semi': 'off',
+      // '@unplugin-auto-import/eslint-plugin': 'off', // 禁用自动导入插件的规则
 
       // eslint-plugin-vue (https://eslint.vuejs.org/rules/)
       'vue/multi-word-component-names': 'off', // 要求组件名称始终为 “-” 链接的单词

@@ -17,8 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
-
 onMounted(() => {
   // This is where you can add any setup logic that needs to run when the component is mounted
   console.log('Home component mounted')

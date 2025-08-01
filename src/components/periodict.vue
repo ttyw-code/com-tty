@@ -52,7 +52,6 @@ import {
   CSS3DRenderer,
   CSS3DObject,
 } from 'three/addons/renderers/CSS3DRenderer.js'
-import { onMounted, ref, useTemplateRef } from 'vue'
 const table = [
   'H',
   'Hydrogen',

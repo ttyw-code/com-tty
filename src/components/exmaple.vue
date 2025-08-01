@@ -17,7 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, computed } from 'vue'
 import request from '../utils/request'
 
 // function changeValue() {

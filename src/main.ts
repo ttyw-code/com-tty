@@ -1,8 +1,8 @@
-import { createApp } from 'vue'
 // import './style.css';
 
 import App from './App.vue'
 import router from './route/router'
+import store from './store'
 //引入element-plus
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
@@ -16,7 +16,7 @@ import gloablComponent from '@/components/index'
 
 import webSocketManager from '@/utils/webSocket/webSocketManager.js'
 
-const app = createApp(App).use(router).use(webSocketManager)
+const app = createApp(App).use(router).use(webSocketManager).use(store)
 app.use(ElementPlus, {
   locale: zhCn,
 })
