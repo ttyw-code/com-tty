@@ -49,7 +49,7 @@ onMounted(() => {
   margin-right: 3vw;
   // color: black;
   color: rgba(186, 215, 245, 1);
-  mix-blend-mode: difference;
+
   #site-header__nav-bg {
     position: absolute;
     inset: 0;
