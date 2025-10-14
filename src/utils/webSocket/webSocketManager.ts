@@ -1,7 +1,13 @@
 import SockJS from 'sockjs-client'
 
-class WebSocketManager {
+export class WebSocketManager {
   private sockjs: WebSocket | undefined = undefined
+
+  private static readonly  INSTANCE = new WebSocketManager()
+
+  public static getInstance(){
+    return WebSocketManager.INSTANCE
+  }
 
   constructor() {}
 
@@ -28,5 +34,3 @@ class WebSocketManager {
     this.sockjs?.send('this message from client')
   }
 }
-
-export default new WebSocketManager()

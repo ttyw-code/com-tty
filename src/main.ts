@@ -14,9 +14,9 @@ import 'virtual:svg-icons-register' //@use   <!-- <svg-icon name="window" width=
 
 import gloablComponent from '@/components/index'
 
-import webSocketManager from '@/utils/webSocket/webSocketManager.js'
+import { WebSocketManager } from '@/utils/webSocket/webSocketManager.js'
 
-const app = createApp(App).use(router).use(webSocketManager).use(store)
+const app = createApp(App).use(router).use(WebSocketManager.getInstance()).use(store)
 app.use(ElementPlus, {
   locale: zhCn,
 })

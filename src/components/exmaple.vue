@@ -12,71 +12,62 @@
       </li>
     </ul>
   </div>
-  <el-button class="button" type="primary" @click="postUU">postUU</el-button>
-  <!-- <el-button class="button" type="primary" @click="">getWebsocketMsg</el-button> -->
+  <el-button class="button" type="primary" @click="">postUU</el-button>
 </template>
 
 <script setup lang="ts">
 import request from '../utils/request'
 
-// function changeValue() {
-//   setTimeout(() => {
-//     myRef.value = Math.ceil(Math.random() * 100)
-//   }, 10000)
-// }
-
-const users = ref(
-  [] as Array<{
+type USER = {
     name: string
     age: number
     email: string
-  }>,
-)
+  }
 
-function getUU() {
+const users = ref<USER[]>([])
+users.value = [{
+  name: "小明",
+  age: 18,
+  email: "123456@qq.com"
+}, {
+  name: "小白",
+  age: 28,
+  email: "123456@qq.com"
+}, {
+  name: "小黑",
+  age: 18,
+  email: "123456@qq.com"
+}]
+
+async function getUsers() {
   console.log('getUser')
-  request
-    .get('api/users')
-    .then((res) => {
-      console.log('User fetched:', res)
-      if (res && Array.isArray(res.data)) {
-        users.value = res.data as Array<{
-          name: string
-          age: number
-          email: string
-        }>
-      }
-    })
-    .catch(() => {
-      console.error('Error fetching user:')
-    })
+  try {
+    const res = await request.get('/get/users')
+    if (res && Array.isArray(res.data)) {
+      users.value = res.data
+    }
+  } catch (error) {
+    console.error('Error fetching user:')
+  }
+
 }
 
-function postUU() {
-  console.log('postUser')
-  request
-    .post('api/users', {
+async function createAUser() {
+
+  try {
+    const USER = {
       name: 'wei young' + Math.ceil(Math.random() * 100),
       age: 29,
       email: '674268714@qq.com',
-    })
-    .then(() => {
-      console.log('User created:')
-      getUU()
-    })
-    .catch(() => {
-      console.error('Error creating user:')
-    })
+    }
+    const res = await request.post('api/users', USER)
+    console.log("res:", res)
+  } catch (error) {
+    console.error('Error creating user:')
+  }
 }
 
 onMounted(() => {
-  // getUU()
-  // changeValue()
-  // ;(function () {
-  //   const path = 'http://localhost:3000/api/users/123'
-  //   const catPath = path.replace(/\/api/, '')
-  //   console.log('catPath: ', catPath)
-  // })()
 })
 
 const myRef = ref(0)
@@ -95,7 +86,7 @@ const db_value = computed(() => {
 }
 
 .button {
-  margin: 10px;
+  margin: 120px;
   padding: 10px 20px;
   background-color: #42b983;
   color: white;
@@ -105,8 +96,9 @@ const db_value = computed(() => {
 }
 
 .user-list {
-  margin: 20px;
+  margin: 100px;
   padding: 10px;
+  height: fit-content;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -121,6 +113,7 @@ const db_value = computed(() => {
       background-color: #fff;
       border: 1px solid #ccc;
       border-radius: 3px;
+
       span {
         font-weight: bold;
         margin-right: 5px;
