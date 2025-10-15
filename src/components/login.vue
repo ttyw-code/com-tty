@@ -64,7 +64,7 @@ onMounted(() => {})
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: #f5f5f5;
+  background-color: var(--bg);
 }
 .login-title {
   font-size: 2rem;
@@ -89,12 +89,12 @@ onMounted(() => {})
     height: 48px;
     font-size: 1.1rem;
     border-radius: 15px;
-    background-color: rgb(121.3, 187.1, 255);
-    color: #f5f5f5;
+    background-color: var(--primary);
+    color: var(--text);
     transition: all 0.3s;
     &:hover {
       transform: scale(1.05);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
     }
   }
   &:nth-of-type(3) {

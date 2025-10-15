@@ -3,9 +3,12 @@ import SockJS from 'sockjs-client'
 export class WebSocketManager {
   private sockjs: WebSocket | undefined = undefined
 
-  private static readonly  INSTANCE = new WebSocketManager()
+  private static INSTANCE = new WebSocketManager()
 
-  public static getInstance(){
+  static getInstance() {
+    if (!this.INSTANCE) {
+      this.INSTANCE = new WebSocketManager()
+    }
     return WebSocketManager.INSTANCE
   }
 

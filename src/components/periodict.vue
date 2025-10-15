@@ -827,7 +827,7 @@ function render() {
   width: 100%;
   height: 100%;
   margin: auto;
-  background-color: #000;
+  background-color: var(--bg);
 }
 
 #menu {
@@ -839,20 +839,20 @@ function render() {
 
 button {
   padding: 5px 10px;
-  color: rgb(127 255 255 / 75%);
+  color: var(--text);
   cursor: pointer;
   background: transparent;
   border: 0;
-  outline: 1px solid rgb(127 255 255 / 75%);
+  outline: 1px solid var(--border);
 }
 
 button:hover {
-  background-color: rgb(0 255 255 / 50%);
+  background-color: rgba(0, 0, 0, 0.04);
 }
 
 button:active {
-  color: #000;
-  background-color: rgb(0 255 255 / 75%);
+  color: var(--bg);
+  background-color: var(--primary);
 }
 
 :deep(.element) {
@@ -862,13 +862,15 @@ button:active {
   line-height: normal;
   text-align: center;
   cursor: default;
-  border: 1px solid rgb(127 255 255 / 25%);
-  box-shadow: 0 0 12px rgb(0 255 255 / 50%);
+  border: 1px solid var(--border);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.06);
+  background: var(--surface);
+  color: var(--text);
 }
 
 :deep(.element:hover) {
-  border: 1px solid rgb(127 255 255 / 75%);
-  box-shadow: 0 0 12px rgb(0 255 255 / 75%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
 }
 
 :deep(.element .number) {
@@ -876,7 +878,7 @@ button:active {
   top: 20px;
   right: 20px;
   font-size: 12px;
-  color: rgb(127 255 255 / 75%);
+  color: var(--muted);
 }
 
 :deep(.element .symbol) {
@@ -886,8 +888,8 @@ button:active {
   left: 0;
   font-size: 60px;
   font-weight: bold;
-  color: rgb(255 255 255 / 75%);
-  text-shadow: 0 0 10px rgb(0 255 255 / 95%);
+  color: var(--text);
+  text-shadow: none;
 }
 
 :deep(.element .details) {
@@ -896,6 +898,6 @@ button:active {
   bottom: 15px;
   left: 0;
   font-size: 12px;
-  color: rgb(127 255 255 / 75%);
+  color: var(--muted);
 }
 </style>

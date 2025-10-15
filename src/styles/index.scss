@@ -1,3 +1,48 @@
-//清除默认样式
+// 清除默认样式
 // @ts-nocheck
 @import url(./reset.scss);
+@import './variable.scss';
+
+/*
+	主题变量说明：
+	- 默认（亮色）样式在 :root 中定义为 CSS 自定义属性
+	- 暗色主题通过在根元素设置 data-theme="dark" 来启用
+		例如： document.documentElement.setAttribute('data-theme', 'dark')
+*/
+
+:root {
+	/* 导出 light 主题变量 */
+	@include export-css-vars($theme-light);
+}
+
+[data-theme='dark'] {
+	/* 导出 dark 主题变量 */
+	@include export-css-vars($theme-dark);
+}
+
+/* 基础样式，使用导出的 CSS 变量 */
+body {
+	background-color: var(--bg);
+	color: var(--text);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	transition: background-color 220ms ease, color 220ms ease;
+}
+
+/* 小示例：主要按钮 */
+.btn-primary {
+	background-color: var(--primary);
+	color: var(--text);
+	padding: 0.5rem 1rem;
+	border-radius: 4px;
+	box-shadow: var(--shadow);
+	border: 1px solid var(--border);
+	transition: background-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+}
+
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+	:root, [data-theme='dark'], body, .btn-primary {
+		transition: none !important;
+	}
+}

@@ -12,32 +12,38 @@
       </li>
     </ul>
   </div>
-  <el-button class="button" type="primary" @click="">postUU</el-button>
+  <el-button class="button" type="primary" @click="createAUser">
+    postUU
+  </el-button>
 </template>
 
 <script setup lang="ts">
 import request from '../utils/request'
 
 type USER = {
-    name: string
-    age: number
-    email: string
-  }
+  name: string
+  age: number
+  email: string
+}
 
 const users = ref<USER[]>([])
-users.value = [{
-  name: "小明",
-  age: 18,
-  email: "123456@qq.com"
-}, {
-  name: "小白",
-  age: 28,
-  email: "123456@qq.com"
-}, {
-  name: "小黑",
-  age: 18,
-  email: "123456@qq.com"
-}]
+users.value = [
+  {
+    name: '小明',
+    age: 18,
+    email: '123456@qq.com',
+  },
+  {
+    name: '小白',
+    age: 28,
+    email: '123456@qq.com',
+  },
+  {
+    name: '小黑',
+    age: 18,
+    email: '123456@qq.com',
+  },
+]
 
 async function getUsers() {
   console.log('getUser')
@@ -49,11 +55,9 @@ async function getUsers() {
   } catch (error) {
     console.error('Error fetching user:')
   }
-
 }
 
 async function createAUser() {
-
   try {
     const USER = {
       name: 'wei young' + Math.ceil(Math.random() * 100),
@@ -61,13 +65,14 @@ async function createAUser() {
       email: '674268714@qq.com',
     }
     const res = await request.post('api/users', USER)
-    console.log("res:", res)
+    console.log('res:', res)
   } catch (error) {
     console.error('Error creating user:')
   }
 }
 
 onMounted(() => {
+  getUsers()
 })
 
 const myRef = ref(0)
@@ -88,8 +93,8 @@ const db_value = computed(() => {
 .button {
   margin: 120px;
   padding: 10px 20px;
-  background-color: #42b983;
-  color: white;
+  background-color: var(--primary);
+  color: var(--bg);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -99,8 +104,8 @@ const db_value = computed(() => {
   margin: 100px;
   padding: 10px;
   height: fit-content;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 5px;
 
   ul {
@@ -110,14 +115,14 @@ const db_value = computed(() => {
     li {
       margin: 5px 0;
       padding: 5px;
-      background-color: #fff;
-      border: 1px solid #ccc;
+      background-color: var(--bg);
+      border: 1px solid var(--border);
       border-radius: 3px;
 
       span {
         font-weight: bold;
         margin-right: 5px;
-        color: #42b983;
+        color: var(--primary);
       }
     }
   }

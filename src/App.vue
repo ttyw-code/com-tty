@@ -15,6 +15,5 @@ main {
   position: absolute;
   inset: 0;
   display: flex;
-  background-color: #1f1d1d;
 }
 </style>

@@ -1,3 +1,64 @@
-//scss全局变量
-$red:red;
-$--gutter:1vw;
+// scss 全局变量 —— 主题与工具变量
+// 请通过在根元素上设置 data-theme="dark" 切换暗色主题，例如：
+// document.documentElement.setAttribute('data-theme', 'dark')
+
+$red: red;
+$--gutter: 1vw;
+
+// 语义化颜色变量（SCSS 默认值）
+$color-bg-light: #ffffff;
+$color-surface-light: #f8fafc; // card / surface
+$color-border-light: #e6eef8;
+$color-text-light: #111827; // 深色文字
+$color-muted-light: #6b7280;
+$color-primary-light: #60a5fa;
+
+$color-bg-dark: #0f1724;
+$color-surface-dark: #111827;
+$color-border-dark: #2b3136;
+$color-text-dark: #e6eef8; // 亮色文字
+$color-muted-dark: #9ca3af;
+$color-primary-dark: #60a5fa;
+
+// 主题中性/状态色（跨主题不变或近似）
+$color-success: #16a34a;
+$color-warning: #f59e0b;
+$color-danger: #ef4444;
+
+// 阴影（在暗色主题可能不同）
+$shadow-light: 0 4px 12px rgba(16,24,40,0.06);
+$shadow-dark: 0 6px 18px rgba(2,6,23,0.6);
+
+// Mixin：把 SCSS 变量输出为 CSS 自定义属性，便于运行时（JS）切换主题和组件样式使用
+@mixin export-css-vars($map) {
+	@each $name, $value in $map {
+		--#{$name}: #{$value};
+	}
+}
+
+// 导出 light/dark 主题映射（包含更多语义键）
+$theme-light: (
+	'bg': $color-bg-light,
+	'surface': $color-surface-light,
+	'border': $color-border-light,
+	'text': $color-text-light,
+	'muted': $color-muted-light,
+	'primary': $color-primary-light,
+	'success': $color-success,
+	'warning': $color-warning,
+	'danger': $color-danger,
+	'shadow': $shadow-light,
+);
+
+$theme-dark: (
+	'bg': $color-bg-dark,
+	'surface': $color-surface-dark,
+	'border': $color-border-dark,
+	'text': $color-text-dark,
+	'muted': $color-muted-dark,
+	'primary': $color-primary-dark,
+	'success': $color-success,
+	'warning': $color-warning,
+	'danger': $color-danger,
+	'shadow': $shadow-dark,
+);
