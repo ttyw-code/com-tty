@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import request from '../utils/request'
+import request from '@/utils/request'
 
 type USER = {
   name: string

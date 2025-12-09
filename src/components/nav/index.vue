@@ -11,6 +11,7 @@
         <RouterLink to="/aspectRatio">Other</RouterLink>
         <RouterLink to="/example">Example</RouterLink>
         <RouterLink to="/login">Login</RouterLink>
+        <RouterLink to="/task">Task</RouterLink>
         <!-- 主题切换按钮 -->
         <button
           class="theme-toggle"
@@ -171,6 +172,7 @@ onBeforeUnmount(() => {
   padding: 0.4vw;
   height: 60px;
   margin-right: 3vw;
+  color: var(--text);
 
   #site-header__nav-bg {
     position: absolute;
@@ -180,25 +182,38 @@ onBeforeUnmount(() => {
     border-radius: calc(2rem + 15px);
     height: 100%;
     width: 100%;
-    &:after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 18px;
-      border: 1px solid rgba(211, 211, 211, 0.03);
-      background: linear-gradient(180deg, #def4ff0a, #abbcc50d, #5d676d1a);
-    }
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow:
+      0 18px 45px rgba(15, 23, 42, 0.18),
+      0 3px 12px rgba(15, 23, 42, 0.12);
   }
+}
+
+[data-theme='dark'] .site-header__nav #site-header__nav-bg {
+  background: rgba(17, 24, 39, 0.88);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow:
+    0 18px 42px rgba(2, 6, 23, 0.65),
+    0 4px 10px rgba(2, 6, 23, 0.42);
 }
 
 .site-header {
   a {
     text-decoration: none;
     padding: 10px;
-    mix-blend-mode: difference;
+    color: inherit;
+    mix-blend-mode: normal;
+    transition: color 160ms ease;
     &:hover {
-      color: skyblue;
+      color: var(--primary);
     }
+  }
+}
+
+[data-theme='dark'] .site-header {
+  a {
+    color: rgba(226, 232, 240, 0.92);
   }
 }
 
