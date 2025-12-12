@@ -19,10 +19,7 @@ applySavedTheme()
 
 import gloablComponent from '@/components/index'
 
-
-const app = createApp(App)
-  .use(router)
-  .use(store)
+const app = createApp(App).use(router).use(store)
 app.use(ElementPlus, {
   locale: zhCn,
 })
