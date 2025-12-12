@@ -20,11 +20,11 @@ applySavedTheme()
 
 import gloablComponent from '@/components/index'
 
-import { WebSocketManager } from '@/utils/webSocket/webSocketManager.js'
+// import { WebSocketManager } from '@/utils/webSocket/webSocketManager.js'
 
 const app = createApp(App)
   .use(router)
-  .use(WebSocketManager.getInstance())
+  // .use(WebSocketManager.getInstance())
   .use(store)
 app.use(ElementPlus, {
   locale: zhCn,
