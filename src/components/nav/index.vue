@@ -1,9 +1,6 @@
 <template>
   <div>
     <header class="site-header">
-      <div id="site-header__logo">
-        <img src="@/assets/icons/vite.svg" alt="Logo" />
-      </div>
       <nav class="site-header__nav">
         <div id="site-header__nav-bg"></div>
         <RouterLink to="/home">Home</RouterLink>
@@ -12,6 +9,7 @@
         <RouterLink to="/example">Example</RouterLink>
         <RouterLink to="/login">Login</RouterLink>
         <RouterLink to="/task">Task</RouterLink>
+        <RouterLink to="/small3d">Small3d</RouterLink>
         <!-- 主题切换按钮 -->
         <button
           class="theme-toggle"
@@ -151,17 +149,13 @@ onBeforeUnmount(() => {
 .site-header {
   display: flex;
   align-items: center;
+  justify-content: center;
   position: fixed;
   padding: 0.3vh;
   top: 4vh;
   left: 0;
   right: 0;
   z-index: 9999;
-  #site-header__logo img {
-    margin-left: 3vw;
-    margin-right: 3vw;
-    height: 100%;
-  }
 }
 .site-header__nav {
   flex: 1;
@@ -171,7 +165,7 @@ onBeforeUnmount(() => {
   width: 100%;
   padding: 0.4vw;
   height: 60px;
-  margin-right: 3vw;
+  margin: 0 3vw;
   color: var(--text);
 
   #site-header__nav-bg {

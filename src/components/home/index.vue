@@ -1,18 +1,10 @@
 <template>
   <div id="home">
-    <h1>
-      this is a home page
-      <br />
-    </h1>
+    <h1>this is a home page</h1>
   </div>
 </template>
 
-<script setup lang="ts">
-onMounted(() => {
-  // This is where you can add any setup logic that needs to run when the component is mounted
-  console.log('Home component mounted')
-})
-</script>
+<script setup lang="ts"></script>
 
 <style scoped lang="scss">
 #home {
@@ -20,5 +12,10 @@ onMounted(() => {
   height: 3000px;
   left: 0;
   right: 0;
+  display: flex;
+
+  h1 {
+    margin: auto;
+  }
 }
 </style>
