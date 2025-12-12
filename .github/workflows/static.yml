@@ -40,6 +40,8 @@ jobs:
         with:
           node-version: lts/*
           cache: 'pnpm'
+      - name: Clear Cache
+        run: pnpm run prune
       - name: Install dependencies
         run: pnpm install --ignore-workspace
       - name: Build
