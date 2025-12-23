@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, onUnmounted } from 'vue'
 import { useThree } from '@/utils/3D'
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
@@ -54,9 +54,10 @@ rotateMatrix.set(
 )
 
 // Use the animation loop from useThree instead of setInterval
+let animationFrameId: number | null = null
 const animateCube = () => {
   cube.applyMatrix4(rotateMatrix)
-  requestAnimationFrame(animateCube)
+  animationFrameId = requestAnimationFrame(animateCube)
 }
 
 // 添加灯光以显示高光
@@ -75,6 +76,12 @@ watch(
     }
   },
 )
+
+onUnmounted(() => {
+  if (animationFrameId !== null) {
+    cancelAnimationFrame(animationFrameId)
+  }
+})
 </script>
 
 <style scoped>
