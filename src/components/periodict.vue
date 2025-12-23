@@ -679,7 +679,7 @@ onUnmounted(() => {
   // Cleanup TWEEN animations
   TWEEN.removeAll()
   // Cleanup event listener
-  window.removeEventListener('change', render)
+  window.removeEventListener('resize', render)
   // Cleanup controls
   if (controls) {
     controls.removeEventListener('change', render)
@@ -801,7 +801,7 @@ function init(_width: number, _height: number) {
 
   transform(targets.table, 2000)
 
-  window.addEventListener('change', render)
+  window.addEventListener('resize', render)
 }
 
 function transform(targets: THREE.Object3D[], duration: number) {
