@@ -662,11 +662,36 @@ let sphereRef = ref(null)
 let helixRef = ref(null)
 let gridRef = ref(null)
 
+let animationFrameId: number
+
 onMounted(() => {
   const height = containerRef.value?.offsetHeight as number
   const width = containerRef.value?.offsetWidth as number
   init(width, height)
   animate()
+})
+
+onUnmounted(() => {
+  // Cleanup animation frame
+  if (animationFrameId) {
+    cancelAnimationFrame(animationFrameId)
+  }
+  // Cleanup TWEEN animations
+  TWEEN.removeAll()
+  // Cleanup event listener
+  window.removeEventListener('change', render)
+  // Cleanup controls
+  if (controls) {
+    controls.removeEventListener('change', render)
+    controls.dispose()
+  }
+  // Cleanup renderer
+  if (renderer && renderer.domElement) {
+    const domElement = renderer.domElement
+    if (domElement.parentNode) {
+      domElement.parentNode.removeChild(domElement)
+    }
+  }
 })
 
 function init(_width: number, _height: number) {
@@ -801,16 +826,17 @@ function transform(targets: THREE.Object3D[], duration: number) {
       )
       .easing(TWEEN.Easing.Exponential.InOut)
       .start()
-
-    new TWEEN.Tween({})
-      .to({}, duration * 2)
-      .onUpdate(render)
-      .start()
   }
+
+  // Single tween for render updates instead of creating one per object
+  new TWEEN.Tween({})
+    .to({}, duration * 2)
+    .onUpdate(render)
+    .start()
 }
 
 function animate() {
-  requestAnimationFrame(animate)
+  animationFrameId = requestAnimationFrame(animate)
 
   TWEEN.update()
 
