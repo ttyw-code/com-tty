@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, onUnmounted } from 'vue'
 import { useThree } from '@/utils/3D'
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
@@ -35,44 +35,31 @@ const cube = new THREE.Mesh(geometry, material)
 
 const rotateMatrix = new THREE.Matrix4()
 rotateMatrix.set(
-  Math.cos(0.1),
+  Math.cos(0.01),
   0,
-  Math.sin(0.1),
+  Math.sin(0.01),
   0,
   0,
   1,
   0,
   0,
-  -Math.sin(0.1),
+  -Math.sin(0.01),
   0,
-  Math.cos(0.1),
+  Math.cos(0.01),
   0,
   0,
   0,
   0,
   1,
 )
-const scaleMatrix = new THREE.Matrix4()
-scaleMatrix.set(2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1)
-const translateMatrix = new THREE.Matrix4()
-translateMatrix.set(1, 0, 0, 2, 0, 1, 0, 2, 0, 0, 1, 2, 0, 0, 0, 1)
-setInterval(() => {
+
+// Use the animation loop from useThree instead of setInterval
+let animationFrameId: number | null = null
+const animateCube = () => {
   cube.applyMatrix4(rotateMatrix)
-}, 16) // 大约每16毫秒旋转一次，相当于60FPS
-// cube.applyMatrix4(rotateMatrix);
+  animationFrameId = requestAnimationFrame(animateCube)
+}
 
-setInterval(() => {
-  // cube.applyMatrix4(translateMatrix);
-}, 2000)
-
-const v1 = new THREE.Vector3(1, 0, 0)
-const v2 = new THREE.Vector3(2, 0, 2)
-
-const v3 = v1.clone().add(v2) // v3 现在是 (3, 3, 3)
-const v4 = v1.clone().cross(v2) // v4 现在是 (2, 0, 0)
-console.log('v4:', v4)
-console.log('v3:', v3)
-console.log('v1:', v1)
 // 添加灯光以显示高光
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.4) // 环境光
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1) // 平行光
@@ -85,9 +72,16 @@ watch(
       newScene.add(ambientLight)
       newScene.add(directionalLight)
       newScene.add(cube)
+      animateCube()
     }
   },
 )
+
+onUnmounted(() => {
+  if (animationFrameId !== null) {
+    cancelAnimationFrame(animationFrameId)
+  }
+})
 </script>
 
 <style scoped>

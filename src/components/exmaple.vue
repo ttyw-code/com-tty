@@ -1,7 +1,5 @@
 <template>
   <div id="container">this is example page!</div>
-  <div>myRef: {{ myRef }}</div>
-  <div>myDbRef: {{ db_value }}</div>
   <svg-icon name="window" width="36px" height="36px"></svg-icon>
   <svg-icon name="return" width="36px" height="36px"></svg-icon>
   <div class="user-list">
@@ -73,15 +71,6 @@ async function createAUser() {
 
 onMounted(() => {
   getUsers()
-})
-
-const myRef = ref(0)
-watch(myRef, (newValue, oldValue) => {
-  console.log(`myRef changed from ${oldValue} to ${newValue}`)
-})
-
-const db_value = computed(() => {
-  return myRef.value * 2
 })
 </script>
 
