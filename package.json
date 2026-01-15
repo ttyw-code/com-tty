@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
+    "@google/genai": "^1.36.0",
     "@types/sockjs-client": "^1.5.4",
     "@typescript-eslint/eslint-plugin": "^8.5.0",
     "@typescript-eslint/parser": "^8.5.0",

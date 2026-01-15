@@ -9,6 +9,8 @@
         <RouterLink to="/example">Example</RouterLink>
         <RouterLink to="/login">Login</RouterLink>
         <RouterLink to="/small3d">Small3d</RouterLink>
+        <RouterLink to="/task">Task</RouterLink>
+        <RouterLink to="/ai">AI</RouterLink>
         <!-- 主题切换按钮 -->
         <button
           class="theme-toggle"

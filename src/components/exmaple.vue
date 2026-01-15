@@ -13,7 +13,7 @@
     </ul>
   </div>
   <el-button class="button" type="primary" @click="createAUser">
-    postUU
+    create a user
   </el-button>
 </template>
 
@@ -45,7 +45,7 @@ users.value = [
   },
 ]
 
-async function getUsers() {
+async function getUsers(): Promise<void> {
   console.log('getUser')
   try {
     const res = await request.get('/get/users')
@@ -57,7 +57,7 @@ async function getUsers() {
   }
 }
 
-async function createAUser() {
+async function createAUser(): Promise<void> {
   try {
     const USER = {
       name: 'wei young' + Math.ceil(Math.random() * 100),
@@ -76,11 +76,11 @@ onMounted(() => {
 })
 
 const myRef = ref(0)
-watch(myRef, (newValue, oldValue) => {
+watch(myRef, (newValue: number, oldValue: number) => {
   console.log(`myRef changed from ${oldValue} to ${newValue}`)
 })
 
-const db_value = computed(() => {
+const db_value = computed((): number => {
   return myRef.value * 2
 })
 </script>

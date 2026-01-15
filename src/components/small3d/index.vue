@@ -13,8 +13,8 @@ import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeom
 import { createElement } from '@/common/dom'
 
 const container = ref<HTMLElement | null>(null)
-const canvasEl = createElement('canvas')
-container.value?.appendChild(canvasEl)
+const canvasElement = createElement('canvas')
+container.value?.appendChild(canvasElement)
 const { scene } = useThree(container, {
   bgColor: 0x20232a,
   showAxes: true,
@@ -65,14 +65,11 @@ setInterval(() => {
   // cube.applyMatrix4(translateMatrix);
 }, 2000)
 
-const v1 = new THREE.Vector3(1, 0, 0)
-const v2 = new THREE.Vector3(2, 0, 2)
+// const v1 = new THREE.Vector3(1, 0, 0)
+// const v2 = new THREE.Vector3(2, 0, 2)
 
-const v3 = v1.clone().add(v2) // v3 现在是 (3, 3, 3)
-const v4 = v1.clone().cross(v2) // v4 现在是 (2, 0, 0)
-console.log('v4:', v4)
-console.log('v3:', v3)
-console.log('v1:', v1)
+// const v3 = v1.clone().add(v2) // v3 现在是 (3, 3, 3)
+// const v4 = v1.clone().cross(v2) // v4 现在是 (2, 0, 0)
 // 添加灯光以显示高光
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.4) // 环境光
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1) // 平行光
