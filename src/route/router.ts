@@ -16,8 +16,8 @@ const routes: RouteRecordRaw[] = [
   { path: '/login', component: Login },
   { path: '/home', component: Home },
   { path: '/small3d', component: Small3d, meta: { hideNav: true } },
-  { path: '/task', component: Task },
-  { path: '/ai', component: Gemini3 },
+  { path: '/task', component: Task, meta: { hideNav: true } },
+  { path: '/ai', component: Gemini3, meta: { hideNav: true } },
   { path: '/', redirect: '/home' }, // 默认重定向到 /periodict
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: Home }, // 404 页面
 ]

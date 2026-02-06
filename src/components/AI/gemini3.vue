@@ -1,8 +1,7 @@
 <template>
   <section class="gemini3">
     <header>
-      <h2>Gemini 3 Console</h2>
-      <p>Enter a prompt and review the responses below.</p>
+      <h2>Gemini 3 pro</h2>
     </header>
 
     <form class="prompt-form" @submit.prevent="sendPrompt">
@@ -24,7 +23,7 @@
           <h3>Prompt</h3>
           <p>{{ message.prompt }}</p>
           <h3>Response</h3>
-          <pre>{{ message.response }}</pre>
+          <div class="markdown" v-html="renderMarkdown(message.response)" />
         </article>
       </li>
       <li v-if="!messages.length" class="empty">No prompts yet.</li>
@@ -34,8 +33,10 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-
 import { GoogleGenAI } from '@google/genai'
+import MarkdownIt from 'markdown-it'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/github-dark.css'
 
 const apiKey = import.meta.env.VITE_GEMINI3_KEY as string | undefined
 if (!apiKey) {
@@ -44,6 +45,17 @@ if (!apiKey) {
 
 const ai = new GoogleGenAI({
   apiKey: apiKey ?? '',
+})
+
+const md = new MarkdownIt({
+  linkify: true,
+  breaks: true,
+  highlight(code, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      return hljs.highlight(code, { language: lang }).value
+    }
+    return hljs.highlightAuto(code).value
+  },
 })
 
 type Message = {
@@ -56,6 +68,10 @@ const messages = ref<Message[]>([])
 const isBusy = ref(false)
 
 const isSendDisabled = computed(() => !prompt.value.trim() || isBusy.value)
+
+function renderMarkdown(text: string) {
+  return md.render(text)
+}
 
 async function sendPrompt() {
   if (isSendDisabled.value) return
@@ -74,7 +90,7 @@ async function sendPrompt() {
 
   try {
     const result = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: 'gemini-3-pro-preview',
       contents: snapshot,
     })
     const text = result.text ?? JSON.stringify(result, null, 2)
@@ -96,6 +112,12 @@ async function sendPrompt() {
   display: grid;
   gap: 1.5rem;
   padding: 2rem;
+  justify-items: center;
+  width: 100%;
+}
+
+.gemini3 > * {
+  width: min(900px, 100%);
 }
 
 header h2 {
@@ -161,10 +183,34 @@ article h3 {
   margin: 0 0 0.25rem;
 }
 
-article pre {
+article .markdown {
   margin: 0;
+  color: inherit;
+}
+
+article .markdown :deep(pre) {
   white-space: pre-wrap;
   word-break: break-word;
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(15, 23, 42, 0.2);
+  overflow-x: auto;
+}
+
+article .markdown :deep(code) {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+  font-size: 0.9rem;
+}
+
+article .markdown :deep(p code) {
+  background: rgba(15, 23, 42, 0.08);
+  color: #0f172a;
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.35rem;
+  border: 1px solid rgba(15, 23, 42, 0.12);
 }
 
 .empty {
