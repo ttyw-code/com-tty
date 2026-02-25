@@ -9,29 +9,44 @@
 import { ref, watch } from 'vue'
 import { useThree } from '@/utils/3D'
 import * as THREE from 'three'
-import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
 import { createElement } from '@/common/dom'
+import vertexShader from './shader.vert.glsl'
+import fragmentShader from './shader.frag.glsl'
 
 const container = ref<HTMLElement | null>(null)
 const canvasElement = createElement('canvas')
 container.value?.appendChild(canvasElement)
-const { scene } = useThree(container, {
+const { scene, camera } = useThree(container, {
   bgColor: 0x20232a,
   showAxes: true,
   cameraPosition: { x: 5, y: 5, z: 5 },
 })
 
-// 使用 RoundedBoxGeometry 创建带有倒角的立方体
-// 参数: width, height, depth, segments, radius
-const geometry = new RoundedBoxGeometry(1, 1, 1, 4, 0.1)
-
-// 使用 MeshStandardMaterial 以支持光照和高光
-const material = new THREE.MeshStandardMaterial({
-  color: 0x00ff00,
-  roughness: 0.2, // 粗糙度越低，高光越明显
-  metalness: 0.1, // 金属度
+// 3. 使用 ShaderMaterial 替换你原来的 MeshStandardMaterial
+const material = new THREE.ShaderMaterial({
+  vertexShader: vertexShader,
+  fragmentShader: fragmentShader,
+  uniforms: {
+    uTime: { value: 0.0 }, // 定义一个时间变量传给 GLSL
+  },
 })
+
+const geometry = new THREE.BoxGeometry(1, 1, 1)
+
 const cube = new THREE.Mesh(geometry, material)
+
+onMounted(async () => {
+  await nextTick()
+  console.log('camera projectionMatrix:', camera.value!.projectionMatrix)
+  console.log('scene :', scene.value)
+})
+
+// 4. 如果你想让颜色动起来，可以在你的 setInterval 或 requestAnimationFrame 中更新 uTime
+let time = 0
+setInterval(() => {
+  time += 0.05
+  material.uniforms.uTime.value = time
+}, 16)
 
 const rotateMatrix = new THREE.Matrix4()
 rotateMatrix.set(
@@ -56,9 +71,10 @@ const scaleMatrix = new THREE.Matrix4()
 scaleMatrix.set(2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1)
 const translateMatrix = new THREE.Matrix4()
 translateMatrix.set(1, 0, 0, 2, 0, 1, 0, 2, 0, 0, 1, 2, 0, 0, 0, 1)
-setInterval(() => {
-  cube.applyMatrix4(rotateMatrix)
-}, 16) // 大约每16毫秒旋转一次，相当于60FPS
+// setInterval(() => {
+//   cube.applyMatrix4(rotateMatrix)
+// }, 16)
+// 大约每16毫秒旋转一次，相当于60FPS
 // cube.applyMatrix4(rotateMatrix);
 
 setInterval(() => {

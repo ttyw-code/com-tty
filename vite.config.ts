@@ -6,6 +6,7 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons' //vite svg plugin
 import { viteMockServe } from 'vite-plugin-mock'
 import inspect from 'vite-plugin-inspect' // vite inspect plugin
 import autoImport from 'unplugin-auto-import/vite'
+import glsl from 'vite-plugin-glsl'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
@@ -21,6 +22,7 @@ export default defineConfig(({ command }) => {
         imports: ['vue', 'vue-router', 'pinia'],
         dts: 'types/auto/auto-imports.d.ts',
       }),
+      glsl(),
       inspect(),
       vue(),
       createSvgIconsPlugin({
