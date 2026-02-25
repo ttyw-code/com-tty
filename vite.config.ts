@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'node:path'
@@ -8,13 +9,10 @@ import autoImport from 'unplugin-auto-import/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
-  // console.log('inspect', inspect())
-  // console.log('vue', vue())
-  // console.log('mode:', mode);
-
-  // console.log('isPreview:', isPreview)
-  // console.log('isSsrBuild:', isSsrBuild)
   return {
+    test: {
+      globals: true,
+    },
     define: {
       global: 'window',
     },

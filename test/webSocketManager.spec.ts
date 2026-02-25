@@ -17,6 +17,7 @@ describe('WebSocketManager', () => {
   it('returns the same singleton instance', () => {
     const first = WebSocketManager.getInstance()
     const second = WebSocketManager.getInstance()
+    const third = new WebSocketManager()
     expect(first).to.equal(second)
   })
 
