@@ -6,7 +6,6 @@ import Example from '@/components/exmaple.vue'
 import Login from '@/components/login.vue'
 import Home from '@/components/home/index.vue'
 import Small3d from '@/components/small3d/index.vue'
-import Task from '@/components/task.vue'
 import Gemini3 from '@/components/AI/gemini3.vue'
 
 const routes: RouteRecordRaw[] = [
@@ -16,7 +15,6 @@ const routes: RouteRecordRaw[] = [
   { path: '/login', component: Login },
   { path: '/home', component: Home },
   { path: '/small3d', component: Small3d, meta: { hideNav: true } },
-  { path: '/task', component: Task, meta: { hideNav: true } },
   { path: '/ai', component: Gemini3, meta: { hideNav: true } },
   { path: '/', redirect: '/home' }, // 默认重定向到 /periodict
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: Home }, // 404 页面

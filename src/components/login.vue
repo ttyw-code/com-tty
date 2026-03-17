@@ -3,7 +3,6 @@
     <div class="login-title">LOGIN</div>
     <div class="login-form">
       <div class="login-form-item">
-        <!-- <label for="username">Username</label> -->
         <el-input
           class="input"
           type="text"
@@ -13,7 +12,6 @@
         />
       </div>
       <div class="login-form-item">
-        <!-- <label for="password">Password</label> -->
         <el-input
           class="input"
           type="password"
