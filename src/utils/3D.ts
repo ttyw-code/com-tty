@@ -25,12 +25,16 @@ export function useThree(
   const axesCamera = shallowRef<THREE.PerspectiveCamera | null>(null)
 
   let animationId: number
+  let cachedWidth = 0
+  let cachedHeight = 0
 
   // 初始化函数
   const init = () => {
     if (!containerRef.value) return
 
     const { width, height } = containerRef.value.getBoundingClientRect()
+    cachedWidth = width
+    cachedHeight = height
 
     // 1. 创建场景
     const _scene = new THREE.Scene()
@@ -85,11 +89,8 @@ export function useThree(
     if (controls.value) controls.value.update()
 
     if (renderer.value && scene.value && camera.value) {
-      const width = containerRef.value?.clientWidth ?? 0
-      const height = containerRef.value?.clientHeight ?? 0
-
       // 渲染主场景
-      renderer.value.setViewport(0, 0, width, height)
+      renderer.value.setViewport(0, 0, cachedWidth, cachedHeight)
       renderer.value.render(scene.value, camera.value)
 
       // 渲染右下角坐标轴
@@ -101,7 +102,7 @@ export function useThree(
         const margin = 10 // 边距
         // 设置视口到右下角
         renderer.value.setViewport(
-          width - axesViewportSize - margin,
+          cachedWidth - axesViewportSize - margin,
           margin,
           axesViewportSize,
           axesViewportSize,
@@ -126,6 +127,8 @@ export function useThree(
     if (!containerRef.value || !camera.value || !renderer.value) return
 
     const { width, height } = containerRef.value.getBoundingClientRect()
+    cachedWidth = width
+    cachedHeight = height
 
     camera.value.aspect = width / height
     camera.value.updateProjectionMatrix()
