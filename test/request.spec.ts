@@ -6,7 +6,7 @@ describe('Request Error Handling', () => {
   it('handles errors without response object gracefully', async () => {
     // Test that the error handler doesn't crash when error.response is undefined
     const mockError = new Error('Network Error')
-    
+
     // This should not throw an error even without a response object
     try {
       // Trigger error without response
@@ -24,7 +24,7 @@ describe('Request Error Handling', () => {
         status: 404,
       },
     }
-    
+
     // Verify that accessing status with optional chaining works
     const status = errorWithResponse.response?.status
     expect(status).to.equal(404)
@@ -34,7 +34,7 @@ describe('Request Error Handling', () => {
     const errorWithoutResponse = {
       message: 'Network Error',
     }
-    
+
     // Verify that optional chaining returns undefined for missing response
     const status = (errorWithoutResponse as any).response?.status
     expect(status).to.be.undefined
