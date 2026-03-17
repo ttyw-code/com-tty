@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { ref, watch, onUnmounted } from 'vue'
-import { useThree } from '@/utils/3D'
+import { useThree } from '@/utils/use3DSence'
 import * as THREE from 'three'
 import { createElement } from '@/common/dom'
 import vertexShader from './shader.vert.glsl'
