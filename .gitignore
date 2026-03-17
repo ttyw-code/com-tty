@@ -17,7 +17,10 @@ package-lock.json
 yarn.lock
 
 # Auto-generated files
-types/auto/
+# types/auto/ is needed for auto-import type declarations used by vue-tsc
+# Keep generated declaration file in source control for CI type checking
+# types/auto/
+!types/auto/auto-imports.d.ts
 
 # Editor directories and files
 .vscode/*
