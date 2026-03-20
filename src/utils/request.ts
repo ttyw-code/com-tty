@@ -29,7 +29,7 @@ request.interceptors.response.use(
         msg = '请求地址错误'
         break
       case 500:
-        msg = '服务器出现问题'
+        msg = '服务器500错误'
         break
       default:
         msg = '无网络'

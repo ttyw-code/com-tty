@@ -45,6 +45,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --ignore-workspace
       - name: Build
+        env:
+          VITE_GEMINI3_KEY: ${{ secrets.VITE_GEMINI3_KEY }}
         run: pnpm run build
       - name: Setup Pages
         uses: actions/upload-pages-artifact@v3

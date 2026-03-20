@@ -14,3 +14,15 @@
 ## 适用场景
 
 适合作为中小型前端项目模板、个人技术实验场，或 Vue3 技术栈学习与工程实践参考。
+
+## 本地环境变量配置（避免明文写密钥）
+
+1. 根目录创建 `.env.local` 文件（该文件按 `.gitignore` 已忽略，安全）
+2. 写入：
+   ```bash
+   VITE_GEMINI3_KEY=
+   ```
+3. 代码中已通过 `import.meta.env.VITE_GEMINI3_KEY` 读取。前端构建时会注入该变量。
+4. 绝对不要把 `.env.local` 提交到 Git；仅提交 `.env.example` 模板（如果需要）。
+
+> 生产环境请在部署平台（如 GitHub Actions、Vercel、Netlify）中配置环境变量，避免把密钥写在源代码。

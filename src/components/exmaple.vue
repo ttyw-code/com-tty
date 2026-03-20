@@ -1,18 +1,20 @@
 <template>
-  <div id="container">this is example page!</div>
-  <svg-icon name="window" width="36px" height="36px"></svg-icon>
-  <svg-icon name="return" width="36px" height="36px"></svg-icon>
-  <div class="user-list">
-    <ul>
-      <li v-for="(item, index) in users" :key="index">
-        <span>{{ index }}</span>
-        {{ item.name }} , {{ item.age }}, {{ item.email }}
-      </li>
-    </ul>
+  <!-- <div id="container">this is example page!</div> -->
+  <!-- <svg-icon name="window" width="36px" height="36px"></svg-icon>
+  <svg-icon name="return" width="36px" height="36px"></svg-icon> -->
+  <div class="content">
+    <div class="user-list">
+      <ul>
+        <li v-for="(item, index) in users" :key="index">
+          <span>{{ index }}</span>
+          {{ item.name }} , {{ item.age }}, {{ item.email }}
+        </li>
+      </ul>
+    </div>
+    <el-button class="button" type="primary" @click="createAUser">
+      创建用户
+    </el-button>
   </div>
-  <el-button class="button" type="primary" @click="createAUser">
-    create a user
-  </el-button>
 </template>
 
 <script setup lang="ts">
@@ -78,9 +80,14 @@ onMounted(() => {
 #container {
   margin: 0;
 }
-
+.content {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .button {
-  margin: 120px;
+  margin-top: 20px;
   padding: 10px 20px;
   background-color: var(--primary);
   color: var(--bg);
@@ -90,7 +97,6 @@ onMounted(() => {
 }
 
 .user-list {
-  margin: 100px;
   padding: 10px;
   height: fit-content;
   background-color: var(--surface);

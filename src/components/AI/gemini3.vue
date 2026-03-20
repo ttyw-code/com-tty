@@ -1,9 +1,20 @@
 <template>
   <section class="gemini3">
     <header>
-      <h2>Gemini 3 pro</h2>
+      <h2>Gemini</h2>
     </header>
 
+    <div class="messages">
+      <div v-for="(message, index) in messages" :key="index">
+        <article>
+          <h3>Prompt</h3>
+          <p>{{ message.prompt }}</p>
+          <h3>Response</h3>
+          <div class="markdown" v-html="renderMarkdown(message.response)" />
+        </article>
+      </div>
+      <div v-if="!messages.length" class="empty">No prompts yet.</div>
+    </div>
     <form class="prompt-form" @submit.prevent="sendPrompt">
       <textarea
         v-model="prompt"
@@ -12,27 +23,17 @@
         @keydown.ctrl.enter.prevent="sendPrompt"
       />
       <div class="actions">
-        <button type="submit" :disabled="isSendDisabled">Send</button>
-        <span v-if="isBusy" class="status">Sending...</span>
+        <button type="submit" :disabled="isSendDisabled">
+          <span v-if="isBusy" class="spinner" aria-label="loading"></span>
+          <span v-else>Send</span>
+        </button>
       </div>
     </form>
-
-    <ul class="messages">
-      <li v-for="(message, index) in messages" :key="index">
-        <article>
-          <h3>Prompt</h3>
-          <p>{{ message.prompt }}</p>
-          <h3>Response</h3>
-          <div class="markdown" v-html="renderMarkdown(message.response)" />
-        </article>
-      </li>
-      <li v-if="!messages.length" class="empty">No prompts yet.</li>
-    </ul>
   </section>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { GoogleGenAI } from '@google/genai'
 import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
@@ -73,6 +74,21 @@ function renderMarkdown(text: string) {
   return md.render(text)
 }
 
+function streamText(message: Message, fullText: string) {
+  return new Promise<void>((resolve) => {
+    let i = 0
+    const len = fullText.length
+    const interval = window.setInterval(() => {
+      i += Math.max(1, Math.floor(Math.random() * 3))
+      message.response = fullText.slice(0, Math.min(i, len))
+      if (i >= len) {
+        window.clearInterval(interval)
+        resolve()
+      }
+    }, 20)
+  })
+}
+
 async function sendPrompt() {
   if (isSendDisabled.value) return
 
@@ -94,13 +110,14 @@ async function sendPrompt() {
       contents: snapshot,
     })
     const text = result.text ?? JSON.stringify(result, null, 2)
-    messages.value.unshift({ prompt: snapshot, response: text })
+    const message = reactive({ prompt: snapshot, response: '' } as Message)
+    messages.value.unshift(message)
+    await streamText(message, text)
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error)
-    messages.value.unshift({
-      prompt: snapshot,
-      response: `调用失败：${message}`,
-    })
+    const messageText = error instanceof Error ? error.message : String(error)
+    const message = reactive({ prompt: snapshot, response: '' } as Message)
+    messages.value.unshift(message)
+    await streamText(message, `调用失败：${messageText}`)
   } finally {
     isBusy.value = false
   }
@@ -111,35 +128,46 @@ async function sendPrompt() {
 .gemini3 {
   display: grid;
   gap: 1.5rem;
-  padding: 2rem;
+  padding: 2rem 2rem 0 2rem;
   justify-items: center;
   width: 100%;
 }
 
 .gemini3 > * {
-  width: min(900px, 100%);
+  width: 100%;
 }
 
 header h2 {
   margin: 0;
+  padding-left: 25px;
+  font-size: larger;
+  font-family:
+    Google Sans Flex,
+    Google Sans,
+    Helvetica Neue,
+    sans-serif;
 }
 
 .prompt-form {
   display: grid;
-  gap: 0.75rem;
+  width: min(60rem, 100%);
+  margin: 0 auto;
 }
 
 textarea {
   width: 100%;
+  max-width: 100%;
   padding: 0.75rem;
   border: 1px solid #c8ccd0;
   border-radius: 0.5rem;
   font-family: inherit;
   resize: vertical;
+  display: block;
 }
 
 .actions {
   display: flex;
+  justify-content: flex-end;
   align-items: center;
   gap: 1rem;
 }
@@ -151,11 +179,31 @@ button {
   background: #2f54eb;
   color: #fff;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
 }
 
 button:disabled {
-  opacity: 0.5;
+  opacity: 0.7;
   cursor: not-allowed;
+}
+
+.spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  box-sizing: border-box;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .status {
@@ -166,7 +214,8 @@ button:disabled {
 .messages {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
+  width: 60rem;
   display: grid;
   gap: 1rem;
   color: skyblue;
@@ -177,6 +226,8 @@ article {
   border-radius: 0.75rem;
   padding: 1rem;
   background: #fafafa;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 article h3 {
