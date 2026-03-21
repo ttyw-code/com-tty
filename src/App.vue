@@ -14,6 +14,7 @@ const isShowNav = computed(() => {
   <RouterLink class="home-float" to="/home" aria-label="返回主页">
     <svg-icon name="return" width="20px" height="20px" />
   </RouterLink>
+  <div class="shortcut-tip">按 Ctrl + K 打开全局搜索</div>
   <Nav v-if="isShowNav"></Nav>
   <main>
     <RouterView />
@@ -48,5 +49,20 @@ main {
 
 .home-float:hover {
   color: var(--primary, #2f54eb);
+}
+
+.shortcut-tip {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 11000;
+  background: rgba(15, 23, 42, 0.9);
+  color: #fff;
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
 }
 </style>
