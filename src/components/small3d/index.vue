@@ -1,7 +1,7 @@
 <template>
   <section class="small3d">
-    <h2 class="small3d__title">Small 3D Scene（CSG 参数可调）</h2>
     <div class="small3d__control">
+      <div class="small3d__control-title">操作</div>
       <label>
         Box 尺寸：
         <input
@@ -11,7 +11,14 @@
           step="0.05"
           v-model.number="params.boxSize"
         />
-        {{ params.boxSize.toFixed(2) }}
+        <input
+          type="number"
+          min="1"
+          max="4"
+          step="0.05"
+          v-model.number="params.boxSize"
+          class="small3d__value-input"
+        />
       </label>
       <label>
         Sphere 半径：
@@ -22,7 +29,14 @@
           step="0.05"
           v-model.number="params.sphereRadius"
         />
-        {{ params.sphereRadius.toFixed(2) }}
+        <input
+          type="number"
+          min="0.5"
+          max="3"
+          step="0.05"
+          v-model.number="params.sphereRadius"
+          class="small3d__value-input"
+        />
       </label>
       <label>
         Offset X：
@@ -33,7 +47,14 @@
           step="0.05"
           v-model.number="params.offsetX"
         />
-        {{ params.offsetX.toFixed(2) }}
+        <input
+          type="number"
+          min="-2"
+          max="2"
+          step="0.05"
+          v-model.number="params.offsetX"
+          class="small3d__value-input"
+        />
       </label>
       <label>
         Offset Y：
@@ -44,7 +65,14 @@
           step="0.05"
           v-model.number="params.offsetY"
         />
-        {{ params.offsetY.toFixed(2) }}
+        <input
+          type="number"
+          min="-2"
+          max="2"
+          step="0.05"
+          v-model.number="params.offsetY"
+          class="small3d__value-input"
+        />
       </label>
       <label>
         Offset Z：
@@ -55,16 +83,29 @@
           step="0.05"
           v-model.number="params.offsetZ"
         />
-        {{ params.offsetZ.toFixed(2) }}
+        <input
+          type="number"
+          min="-2"
+          max="2"
+          step="0.05"
+          v-model.number="params.offsetZ"
+          class="small3d__value-input"
+        />
       </label>
-      <label>
-        操作：
-        <select v-model="params.operation">
-          <option value="subtract">Subtract</option>
-          <option value="union">Union</option>
-          <option value="intersect">Intersect</option>
-        </select>
-      </label>
+      <div class="small3d__operation-radios">
+        <label>
+          <input type="radio" value="subtract" v-model="params.operation" />
+          Subtract
+        </label>
+        <label>
+          <input type="radio" value="union" v-model="params.operation" />
+          Union
+        </label>
+        <label>
+          <input type="radio" value="intersect" v-model="params.operation" />
+          Intersect
+        </label>
+      </div>
     </div>
 
     <div ref="container" class="small3d__canvas"></div>
@@ -252,12 +293,22 @@ onUnmounted(() => {
   z-index: 2;
   display: grid;
   gap: 0.35rem;
-  width: min(30%, 320px);
+  width: min(30%, 340px);
   padding: 0.6rem 0.75rem;
   background: rgba(5, 8, 20, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 0.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+}
+
+.small3d__control-title {
+  font-size: 0.95rem;
+  color: #a1caff;
+  font-weight: 600;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+  padding-bottom: 0.35rem;
+  margin-bottom: 0.2rem;
 }
 
 .small3d__control label {
@@ -269,10 +320,32 @@ onUnmounted(() => {
   color: #d6e4ff;
 }
 
-.small3d__control input,
-.small3d__control select {
+.small3d__control input[type='range'] {
   flex: 1;
-  min-width: 120px;
+}
+
+.small3d__value-input {
+  width: 5rem;
+  min-width: 4.2rem;
+  padding: 0.1rem 0.2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #fff;
+  border-radius: 0.2rem;
+}
+
+.small3d__operation-radios {
+  display: flex;
+  gap: 0.5rem;
+  padding-top: 0.3rem;
+  font-size: 0.8rem;
+}
+
+.small3d__operation-radios label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  cursor: pointer;
 }
 
 .small3d__canvas {

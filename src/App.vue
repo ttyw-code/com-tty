@@ -54,8 +54,7 @@ main {
 .shortcut-tip {
   position: fixed;
   top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 5rem;
   z-index: 11000;
   background: rgba(15, 23, 42, 0.9);
   color: #fff;
