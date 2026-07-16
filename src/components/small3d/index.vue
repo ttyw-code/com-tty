@@ -77,6 +77,7 @@ import { useThree } from '@/utils/use3DSence'
 import * as THREE from 'three'
 import { CSG } from 'three-csg-ts'
 import { createElement } from '@/common/dom'
+import { loadGLTFModel, loadObjModel } from './3DUtils/loadModel'
 
 const container = ref<HTMLElement | null>(null)
 const params = reactive({
@@ -175,6 +176,28 @@ const animate = () => {
   animationFrameId = requestAnimationFrame(animate)
 }
 
+const addR8ToScene = (scene: THREE.Scene) => {
+  loadObjModel('../../../public/map/audi-r8.obj')
+    .then((obj) => {
+      obj.scale.multiplyScalar(0.001) // 缩放模型
+      obj.position.set(5, 0.1, 0.1)
+      scene.add(obj)
+    })
+    .catch((error) => {
+      console.error('Failed to load OBJ model:', error)
+    })
+}
+
+const addTriangleScene = (scene: THREE.Scene) => {
+  loadGLTFModel('../../../public/map/triangle.gltf')
+    .then((gltf) => {
+      gltf.position.set(-2, 0, -2)
+      scene.add(gltf)
+    })
+    .catch((error) => {
+      console.error('Failed to load GLTF model:', error)
+    })
+}
 watch(
   () => params,
   () => {
@@ -191,6 +214,8 @@ watch(
       newScene.add(directionalLight)
       newScene.add(highlightCube)
       rebuildCSG()
+      addR8ToScene(newScene)
+      addTriangleScene(newScene)
       animate()
     }
   },
@@ -198,8 +223,6 @@ watch(
 
 onMounted(async () => {
   await nextTick()
-  console.log('camera projectionMatrix:', camera.value?.projectionMatrix)
-  console.log('scene :', scene.value)
 })
 
 onUnmounted(() => {
@@ -279,41 +302,6 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   min-height: 400px;
-  background: #20232a;
-  border-radius: 0.5rem;
-  overflow: hidden;
-}
-</style>
-<style scoped>
-.small3d {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 1rem;
-  background: #101420;
-  color: #fff;
-  border-radius: 0.75rem;
-  position: relative;
-}
-
-.small3d__title {
-  position: absolute;
-  top: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 1.125rem;
-  z-index: 1;
-}
-
-.small3d__canvas {
-  width: 100%;
-  height: 100%;
-  min-height: 400px;
-  /* 给一个最小高度确保显示 */
   background: #20232a;
   border-radius: 0.5rem;
   overflow: hidden;
