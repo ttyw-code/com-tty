@@ -91,7 +91,7 @@ const params = reactive({
 
 const canvasElement = createElement('canvas')
 container.value?.appendChild(canvasElement)
-const { scene, camera } = useThree(container, {
+const { scene } = useThree(container, {
   bgColor: 0x20232a,
   showAxes: true,
   cameraPosition: { x: 5, y: 5, z: 5 },
