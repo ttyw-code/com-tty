@@ -177,7 +177,7 @@ const animate = () => {
 }
 
 const addR8ToScene = (scene: THREE.Scene) => {
-  loadObjModel('../../../public/map/audi-r8.obj')
+  loadObjModel(`${import.meta.env.BASE_URL}map/audi-r8.obj`)
     .then((obj) => {
       obj.scale.multiplyScalar(0.001) // 缩放模型
       obj.position.set(5, 0.1, 0.1)
@@ -189,7 +189,7 @@ const addR8ToScene = (scene: THREE.Scene) => {
 }
 
 const addTriangleScene = (scene: THREE.Scene) => {
-  loadGLTFModel('../../../public/map/triangle.gltf')
+  loadGLTFModel(`${import.meta.env.BASE_URL}map/triangle.gltf`)
     .then((gltf) => {
       gltf.position.set(-2, 0, -2)
       scene.add(gltf)
