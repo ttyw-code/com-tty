@@ -78,6 +78,8 @@ import * as THREE from 'three'
 import { CSG } from 'three-csg-ts'
 import { createElement } from '@/common/dom'
 import { loadGLTFModel, loadObjModel } from './3DUtils/loadModel'
+import vert from './shader.vert.glsl'
+import frag from './shader.frag.glsl'
 
 const container = ref<HTMLElement | null>(null)
 const params = reactive({
@@ -142,10 +144,10 @@ const createCSGMesh = () => {
     csgResult = CSG.intersect(box, sphere)
   }
 
-  csgResult.material = new THREE.MeshStandardMaterial({
-    color: 0x44cc88,
-    metalness: 0.3,
-    roughness: 0.4,
+  csgResult.material = new THREE.ShaderMaterial({
+    uniforms: { uTime },
+    vertexShader: vert,
+    fragmentShader: frag,
   })
   csgResult.castShadow = true
   csgResult.receiveShadow = true
@@ -169,8 +171,10 @@ const rebuildCSG = () => {
 const rotateMatrix = new THREE.Matrix4()
 rotateMatrix.makeRotationY(0.01)
 
+const uTime = { value: 0 }
 let animationFrameId: number | null = null
 const animate = () => {
+  uTime.value = performance.now() / 1000
   csgMesh?.applyMatrix4(rotateMatrix)
   highlightCube.applyMatrix4(rotateMatrix)
   animationFrameId = requestAnimationFrame(animate)
@@ -179,8 +183,17 @@ const animate = () => {
 const addR8ToScene = (scene: THREE.Scene) => {
   loadObjModel(`${import.meta.env.BASE_URL}map/audi-r8.obj`)
     .then((obj) => {
-      obj.scale.multiplyScalar(0.001) // 缩放模型
+      obj.scale.multiplyScalar(0.001)
       obj.position.set(5, 0.1, 0.1)
+      obj.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          child.material = new THREE.ShaderMaterial({
+            uniforms: { uTime },
+            vertexShader: vert,
+            fragmentShader: frag,
+          })
+        }
+      })
       scene.add(obj)
     })
     .catch((error) => {
@@ -198,6 +211,8 @@ const addTriangleScene = (scene: THREE.Scene) => {
       console.error('Failed to load GLTF model:', error)
     })
 }
+
+const addMyGLSLExampleScene = (scene: THREE.Scene) => {}
 watch(
   () => params,
   () => {
