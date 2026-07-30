@@ -67,7 +67,10 @@
       </label>
     </div>
 
-    <div ref="container" class="small3d__canvas"></div>
+    <div class="small3d__viewers">
+      <div ref="container" class="small3d__canvas"></div>
+      <div ref="cesiumContainer" class="small3d__cesium"></div>
+    </div>
   </section>
 </template>
 
@@ -80,8 +83,12 @@ import { createElement } from '@/common/dom'
 import { loadGLTFModel, loadObjModel } from './3DUtils/loadModel'
 import vert from './shader.vert.glsl'
 import frag from './shader.frag.glsl'
+import * as Cesium from 'cesium'
+import 'cesium/Build/Cesium/Widgets/widgets.css'
 
 const container = ref<HTMLElement | null>(null)
+const cesiumContainer = ref<HTMLElement | null>(null)
+let cesiumViewer: Cesium.Viewer | null = null
 const params = reactive({
   boxSize: 2,
   sphereRadius: 1.3,
@@ -212,7 +219,6 @@ const addTriangleScene = (scene: THREE.Scene) => {
     })
 }
 
-const addMyGLSLExampleScene = (scene: THREE.Scene) => {}
 watch(
   () => params,
   () => {
@@ -238,9 +244,32 @@ watch(
 
 onMounted(async () => {
   await nextTick()
+  if (cesiumContainer.value) {
+    cesiumViewer = new Cesium.Viewer(cesiumContainer.value, {
+      timeline: false,
+      animation: false,
+      baseLayerPicker: false,
+      fullscreenButton: false,
+      geocoder: false,
+      homeButton: false,
+      infoBox: false,
+      navigationHelpButton: false,
+      sceneModePicker: false,
+      selectionIndicator: false,
+      baseLayer: new Cesium.ImageryLayer(
+        new Cesium.OpenStreetMapImageryProvider({
+          url: 'https://tile.openstreetmap.org/',
+        }),
+      ),
+    })
+  }
 })
 
 onUnmounted(() => {
+  if (cesiumViewer) {
+    cesiumViewer.destroy()
+    cesiumViewer = null
+  }
   if (animationFrameId !== null) {
     cancelAnimationFrame(animationFrameId)
   }
@@ -313,12 +342,27 @@ onUnmounted(() => {
   min-width: 120px;
 }
 
-.small3d__canvas {
+.small3d__viewers {
   width: 100%;
   height: 100%;
   min-height: 400px;
-  background: #20232a;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.small3d__canvas,
+.small3d__cesium {
+  flex: 1;
   border-radius: 0.5rem;
   overflow: hidden;
+}
+
+.small3d__canvas {
+  background: #20232a;
+}
+
+.small3d__cesium {
+  background: #000;
 }
 </style>
