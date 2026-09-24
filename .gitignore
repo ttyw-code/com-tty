@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# WorkBuddy 本地会话数据（AI 记忆 / 临时产物），不入库
+.workbuddy/
+
 # Lock files (using pnpm)
 package-lock.json
 yarn.lock
