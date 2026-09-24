@@ -4,20 +4,66 @@
 @import './variable.scss';
 
 /*
-	主题变量说明：
-	- 默认（亮色）样式在 :root 中定义为 CSS 自定义属性
-	- 暗色主题通过在根元素设置 data-theme="dark" 来启用
-		例如： document.documentElement.setAttribute('data-theme', 'dark')
+	主题变量说明（全站统一「全局搜索」中性灰阶色系）：
+	- 默认（:root）为暗色档，与 GlobalSearch 面板完全一致
+	- 在根元素显式设置 data-theme="light" 时切换为同一灰阶的亮色档
+		例如： document.documentElement.setAttribute('data-theme', 'light')
 */
 
 :root {
-	/* 导出 light 主题变量 */
+	/* 默认即全局搜索色系（暗色） */
+	@include export-css-vars($theme-dark);
+}
+
+[data-theme='light'] {
+	/* 同一灰阶的亮色档 */
 	@include export-css-vars($theme-light);
 }
 
+/* 兼容旧写法：data-theme="dark" 时同样取暗色档 */
 [data-theme='dark'] {
-	/* 导出 dark 主题变量 */
 	@include export-css-vars($theme-dark);
+}
+
+/*
+	让 Element Plus 组件（输入框 / 按钮 / 复选框…）跟随全站中性色系。
+	背景、文字、描边直接引用上面的语义变量，主题切换时自动跟随；
+	只有 --el-color-primary 系列需要按主题单独给值。
+*/
+@mixin el-neutral-vars($primary, $l3, $l5, $l7, $l8, $l9) {
+	--el-color-primary: #{$primary};
+	--el-color-primary-light-3: #{$l3};
+	--el-color-primary-light-5: #{$l5};
+	--el-color-primary-light-7: #{$l7};
+	--el-color-primary-light-8: #{$l8};
+	--el-color-primary-light-9: #{$l9};
+	--el-bg-color: var(--surface);
+	--el-bg-color-page: var(--bg);
+	--el-bg-color-overlay: var(--surface);
+	--el-text-color-primary: var(--text);
+	--el-text-color-regular: var(--text-2);
+	--el-text-color-secondary: var(--muted);
+	--el-text-color-placeholder: var(--faint);
+	--el-text-color-disabled: var(--faint);
+	--el-border-color: var(--border);
+	--el-border-color-light: var(--border);
+	--el-border-color-lighter: var(--border);
+	--el-border-color-extra-light: var(--border);
+	--el-fill-color: var(--surface-2);
+	--el-fill-color-light: var(--surface-2);
+	--el-fill-color-lighter: var(--surface-2);
+	--el-fill-color-blank: var(--bg);
+	--el-fill-color-dark: var(--surface-3);
+	--el-box-shadow-light: var(--shadow-sm);
+}
+
+:root,
+[data-theme='dark'] {
+	@include el-neutral-vars(#6b6b6b, #7f7f7f, #939393, #a7a7a7, #b3b3b3, #bfbfbf);
+}
+
+[data-theme='light'] {
+	@include el-neutral-vars(#3a3a3a, #555555, #6b6b6b, #858585, #959595, #a5a5a5);
 }
 
 /* 基础样式，使用导出的 CSS 变量 */
@@ -29,10 +75,21 @@ body {
 	transition: background-color 220ms ease, color 220ms ease;
 }
 
+/* 全站文本选区也保持中性 */
+::selection {
+	background: var(--surface-3);
+	color: var(--text);
+}
+
+/* 滚动条跟随色系 */
+* {
+	scrollbar-color: var(--surface-3) transparent;
+}
+
 /* 小示例：主要按钮 */
 .btn-primary {
 	background-color: var(--primary);
-	color: var(--text);
+	color: var(--on-primary);
 	padding: 0.5rem 1rem;
 	border-radius: 4px;
 	box-shadow: var(--shadow);
@@ -42,7 +99,11 @@ body {
 
 /* 减少动画偏好 */
 @media (prefers-reduced-motion: reduce) {
-	:root, [data-theme='dark'], body, .btn-primary {
+	:root,
+	[data-theme='dark'],
+	[data-theme='light'],
+	body,
+	.btn-primary {
 		transition: none !important;
 	}
 }

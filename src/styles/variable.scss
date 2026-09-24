@@ -1,33 +1,54 @@
 // scss 全局变量 —— 主题与工具变量
-// 请通过在根元素上设置 data-theme="dark" 切换暗色主题，例如：
-// document.documentElement.setAttribute('data-theme', 'dark')
+//
+// 全站统一采用「全局搜索」色系：纯中性灰阶（无彩色），深浅两档由 data-theme 切换。
+// 取色来源 src/components/GlobalSearch/index.vue：
+//   面板 #1e1e1e / 底栏 #252525 / 描边 #333 / 主文字 #fff / 次文字 #999 / 弱文字 #666
+//
+// 默认（:root）即暗色档；显式设置 data-theme="light" 时切换为同一灰阶的亮色档。
 
 $red: red;
 $--gutter: 1vw;
 
-// 语义化颜色变量（SCSS 默认值）
-$color-bg-light: #ffffff;
-$color-surface-light: #f8fafc; // card / surface
-$color-border-light: #e6eef8;
-$color-text-light: #111827; // 深色文字
-$color-muted-light: #6b7280;
-$color-primary-light: #60a5fa;
+// ---------- 暗色档（默认 = 全局搜索面板取色）----------
+$color-bg-dark: #141414; // 页面底色（面板之下）
+$color-surface-dark: #1e1e1e; // 面板 / 卡片 —— 搜索容器
+$color-surface-2-dark: #252525; // 抬升层 —— 搜索底部栏
+$color-surface-3-dark: #333333; // 填充层 —— kbd / 输入框
+$color-border-dark: #333333; // 描边
+$color-border-strong-dark: #3f3f3f; // 强调描边（hover）
+$color-text-dark: #ffffff; // 主文字
+$color-text-2-dark: #cccccc; // 次级正文
+$color-muted-dark: #999999; // 辅助文字
+$color-faint-dark: #666666; // 占位 / 极弱文字
+$color-primary-dark: #3a3a3a; // 中性按钮底色
+$color-on-primary-dark: #f5f5f5; // 按钮上的文字
+$color-accent-dark: #ffffff; // 文字级强调（链接 / hover）
+$color-overlay-dark: rgba(0, 0, 0, 0.6); // 遮罩
+$shadow-dark: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+$shadow-sm-dark: 0 0 12px rgba(0, 0, 0, 0.45);
 
-$color-bg-dark: #0f1724;
-$color-surface-dark: #111827;
-$color-border-dark: #2b3136;
-$color-text-dark: #e6eef8; // 亮色文字
-$color-muted-dark: #9ca3af;
-$color-primary-dark: #60a5fa;
+// ---------- 亮色档（同一灰阶的亮色版本）----------
+$color-bg-light: #f5f5f5;
+$color-surface-light: #ffffff;
+$color-surface-2-light: #fafafa;
+$color-surface-3-light: #eeeeee;
+$color-border-light: #e0e0e0;
+$color-border-strong-light: #cfcfcf;
+$color-text-light: #1a1a1a;
+$color-text-2-light: #333333;
+$color-muted-light: #666666;
+$color-faint-light: #999999;
+$color-primary-light: #2b2b2b;
+$color-on-primary-light: #ffffff;
+$color-accent-light: #000000;
+$color-overlay-light: rgba(0, 0, 0, 0.35);
+$shadow-light: 0 18px 40px rgba(0, 0, 0, 0.12);
+$shadow-sm-light: 0 0 12px rgba(0, 0, 0, 0.06);
 
-// 主题中性/状态色（跨主题不变或近似）
+// 状态色（跨主题一致，仅用于语义状态）
 $color-success: #16a34a;
 $color-warning: #f59e0b;
 $color-danger: #ef4444;
-
-// 阴影（在暗色主题可能不同）
-$shadow-light: 0 4px 12px rgba(16,24,40,0.06);
-$shadow-dark: 0 6px 18px rgba(2,6,23,0.6);
 
 // Mixin：把 SCSS 变量输出为 CSS 自定义属性，便于运行时（JS）切换主题和组件样式使用
 @mixin export-css-vars($map) {
@@ -36,29 +57,47 @@ $shadow-dark: 0 6px 18px rgba(2,6,23,0.6);
 	}
 }
 
-// 导出 light/dark 主题映射（包含更多语义键）
+// 导出 light/dark 主题映射（语义键名即为 CSS 变量名，如 var(--surface-2)）
 $theme-light: (
 	'bg': $color-bg-light,
 	'surface': $color-surface-light,
+	'surface-2': $color-surface-2-light,
+	'surface-3': $color-surface-3-light,
 	'border': $color-border-light,
+	'border-strong': $color-border-strong-light,
 	'text': $color-text-light,
+	'text-2': $color-text-2-light,
 	'muted': $color-muted-light,
+	'faint': $color-faint-light,
 	'primary': $color-primary-light,
+	'on-primary': $color-on-primary-light,
+	'accent': $color-accent-light,
+	'overlay': $color-overlay-light,
 	'success': $color-success,
 	'warning': $color-warning,
 	'danger': $color-danger,
 	'shadow': $shadow-light,
+	'shadow-sm': $shadow-sm-light,
 );
 
 $theme-dark: (
 	'bg': $color-bg-dark,
 	'surface': $color-surface-dark,
+	'surface-2': $color-surface-2-dark,
+	'surface-3': $color-surface-3-dark,
 	'border': $color-border-dark,
+	'border-strong': $color-border-strong-dark,
 	'text': $color-text-dark,
+	'text-2': $color-text-2-dark,
 	'muted': $color-muted-dark,
+	'faint': $color-faint-dark,
 	'primary': $color-primary-dark,
+	'on-primary': $color-on-primary-dark,
+	'accent': $color-accent-dark,
+	'overlay': $color-overlay-dark,
 	'success': $color-success,
 	'warning': $color-warning,
 	'danger': $color-danger,
 	'shadow': $shadow-dark,
+	'shadow-sm': $shadow-sm-dark,
 );

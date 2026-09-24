@@ -101,7 +101,7 @@ defineExpose({
 .global-search-mask {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--overlay);
   backdrop-filter: blur(4px);
   z-index: 9999;
   display: flex;
@@ -113,14 +113,14 @@ defineExpose({
 .global-search-container {
   width: 600px;
   max-width: 90%;
-  background: #1e1e1e;
+  background: var(--surface);
   border-radius: 12px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  border: 1px solid #333;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  color: #fff;
+  color: var(--text);
   animation: slideDown 0.2s ease-out;
 }
 
@@ -139,24 +139,24 @@ defineExpose({
   display: flex;
   align-items: center;
   padding: 16px 20px;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--border);
 
   .search-icon {
     margin-right: 12px;
     display: flex;
-    color: #999;
+    color: var(--muted);
   }
 
   input {
     flex: 1;
     background: transparent;
     border: none;
-    color: #fff;
+    color: var(--text);
     font-size: 18px;
     outline: none;
 
     &::placeholder {
-      color: #666;
+      color: var(--faint);
     }
   }
 }
@@ -166,7 +166,7 @@ defineExpose({
   padding: 20px;
 
   .empty-state {
-    color: #666;
+    color: var(--faint);
     text-align: center;
     font-size: 14px;
   }
@@ -174,22 +174,22 @@ defineExpose({
 
 .search-footer {
   padding: 10px 20px;
-  background: #252525;
-  color: #666;
+  background: var(--surface-2);
+  color: var(--faint);
   font-size: 12px;
   display: flex;
   justify-content: flex-end;
   gap: 16px;
-  border-top: 1px solid #333;
+  border-top: 1px solid var(--border);
 
   kbd {
-    background: #333;
+    background: var(--surface-3);
     padding: 2px 6px;
     border-radius: 4px;
     margin-right: 4px;
     font-family: monospace;
-    border-bottom: 1px solid #000;
-    color: #aaa;
+    border-bottom: 1px solid var(--bg);
+    color: var(--text-2);
   }
 }
 
