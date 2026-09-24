@@ -3,13 +3,13 @@
     <header class="site-header">
       <nav class="site-header__nav">
         <div id="site-header__nav-bg"></div>
-        <RouterLink to="/home">Home</RouterLink>
-        <RouterLink to="/periodict">Periodict</RouterLink>
-        <RouterLink to="/aspectRatio">Other</RouterLink>
-        <RouterLink to="/example">Example</RouterLink>
-        <RouterLink to="/login">Login</RouterLink>
-        <RouterLink to="/small3d">Small3d</RouterLink>
-        <RouterLink to="/ai">AI</RouterLink>
+        <RouterLink
+          v-for="item in navItems"
+          :key="item.name"
+          :to="{ name: item.name }"
+        >
+          {{ item.label }}
+        </RouterLink>
         <!-- 主题切换按钮 -->
         <button
           class="theme-toggle"
@@ -118,8 +118,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import theme, { toggleTheme, getTheme } from '../../utils/theme'
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
+import theme, { toggleTheme, getTheme } from '@/utils/theme'
+import { router } from '@/router'
+
+// 导航项直接由路由表派生：加路由即加导航，不用两处维护
+const navItems = computed(() =>
+  router.options.routes
+    .filter((route) => route.meta?.nav && route.name)
+    .map((route) => ({
+      name: route.name as string,
+      label: route.meta?.title ?? String(route.name),
+    })),
+)
 
 const current = ref<'light' | 'dark'>(getTheme())
 const ariaLabel = ref(
@@ -166,7 +177,7 @@ onBeforeUnmount(() => {
   padding: 0.4vw;
   height: 60px;
   margin: 0 3vw;
-  color: var(--text);
+  color: var(--muted);
 
   #site-header__nav-bg {
     position: absolute;
@@ -178,18 +189,8 @@ onBeforeUnmount(() => {
     width: 100%;
     background: var(--surface);
     border: 1px solid var(--border);
-    box-shadow:
-      0 18px 45px rgba(15, 23, 42, 0.18),
-      0 3px 12px rgba(15, 23, 42, 0.12);
+    box-shadow: var(--shadow-sm);
   }
-}
-
-[data-theme='dark'] .site-header__nav #site-header__nav-bg {
-  background: rgba(17, 24, 39, 0.88);
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  box-shadow:
-    0 18px 42px rgba(2, 6, 23, 0.65),
-    0 4px 10px rgba(2, 6, 23, 0.42);
 }
 
 .site-header {
@@ -200,14 +201,8 @@ onBeforeUnmount(() => {
     mix-blend-mode: normal;
     transition: color 160ms ease;
     &:hover {
-      color: var(--primary);
+      color: var(--accent);
     }
-  }
-}
-
-[data-theme='dark'] .site-header {
-  a {
-    color: rgba(226, 232, 240, 0.92);
   }
 }
 
@@ -218,11 +213,19 @@ onBeforeUnmount(() => {
   justify-content: center;
   background: transparent;
   border: 1px solid var(--border);
-  color: var(--text);
+  color: var(--muted);
   padding: 6px 8px;
   border-radius: 6px;
   width: 40px;
   height: 36px;
+  transition:
+    color 160ms ease,
+    background-color 160ms ease;
+}
+
+.theme-toggle:hover {
+  color: var(--accent);
+  background: var(--surface-2);
 }
 .theme-toggle svg {
   display: block;

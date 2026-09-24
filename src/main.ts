@@ -3,7 +3,7 @@
 import App from './App.vue'
 // 全局样式（包含主题变量）：
 import '@/styles/index.scss'
-import router from './route/router'
+import router from '@/router'
 import store from './store'
 //引入element-plus
 import ElementPlus from 'element-plus'
@@ -25,5 +25,26 @@ app.use(ElementPlus, {
 })
 
 app.use(gloablComponent)
-
+console.log('---------------------start')
+void PromiseMain()
+console.log('---------------------end')
 app.mount('#app')
+
+export async function PromiseMain() {
+  const drain = () => new Promise((r) => setTimeout(r, 0))
+  const out = [] as any[]
+  const L = (s: string) => out.push(s)
+
+  const p = Promise.resolve('v')
+  L('sync')
+  ;(async () => {
+    await p
+    L('await 恢复')
+  })()
+  p.then(() => L('then'))
+  queueMicrotask(() => L('queueMicrotask'))
+  setTimeout(() => L('setTimeout 宏任务'))
+
+  await drain()
+  console.log(out)
+}
