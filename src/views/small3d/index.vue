@@ -76,10 +76,9 @@
 
 <script setup lang="ts">
 import { ref, watch, onUnmounted, onMounted, reactive, nextTick } from 'vue'
-import { useThree } from '@/utils/use3DSence'
+import { useThree } from '@/utils/useThree'
 import * as THREE from 'three'
 import { CSG } from 'three-csg-ts'
-import { createElement } from '@/common/dom'
 import { loadGLTFModel, loadObjModel } from './3DUtils/loadModel'
 import vert from './shader.vert.glsl'
 import frag from './shader.frag.glsl'
@@ -98,9 +97,8 @@ const params = reactive({
   operation: 'subtract' as 'subtract' | 'union' | 'intersect',
 })
 
-const canvasElement = createElement('canvas')
-container.value?.appendChild(canvasElement)
-const { scene } = useThree(container, {
+let sceneRef: THREE.Scene | null = null
+const { onReady, onBeforeRender } = useThree(container, {
   bgColor: 0x20232a,
   showAxes: true,
   cameraPosition: { x: 5, y: 5, z: 5 },
@@ -163,29 +161,21 @@ const createCSGMesh = () => {
 }
 
 const rebuildCSG = () => {
-  if (scene.value) {
-    if (csgMesh) {
-      scene.value.remove(csgMesh)
-      csgMesh.geometry.dispose()
-      ;(csgMesh.material as THREE.Material).dispose()
-      csgMesh = null
-    }
-    csgMesh = createCSGMesh()
-    scene.value.add(csgMesh)
+  if (!sceneRef) return
+  if (csgMesh) {
+    sceneRef.remove(csgMesh)
+    csgMesh.geometry.dispose()
+    ;(csgMesh.material as THREE.Material).dispose()
+    csgMesh = null
   }
+  csgMesh = createCSGMesh()
+  sceneRef.add(csgMesh)
 }
 
 const rotateMatrix = new THREE.Matrix4()
 rotateMatrix.makeRotationY(0.01)
 
 const uTime = { value: 0 }
-let animationFrameId: number | null = null
-const animate = () => {
-  uTime.value = performance.now() / 1000
-  csgMesh?.applyMatrix4(rotateMatrix)
-  highlightCube.applyMatrix4(rotateMatrix)
-  animationFrameId = requestAnimationFrame(animate)
-}
 
 const addR8ToScene = (scene: THREE.Scene) => {
   loadObjModel(`${import.meta.env.BASE_URL}map/audi-r8.obj`)
@@ -227,20 +217,21 @@ watch(
   { deep: true },
 )
 
-watch(
-  () => scene.value,
-  (newScene) => {
-    if (newScene) {
-      newScene.add(ambientLight)
-      newScene.add(directionalLight)
-      newScene.add(highlightCube)
-      rebuildCSG()
-      addR8ToScene(newScene)
-      addTriangleScene(newScene)
-      animate()
-    }
-  },
-)
+onReady(({ scene }) => {
+  sceneRef = scene
+  scene.add(ambientLight)
+  scene.add(directionalLight)
+  scene.add(highlightCube)
+  rebuildCSG()
+  addR8ToScene(scene)
+  addTriangleScene(scene)
+})
+
+onBeforeRender(({ elapsed }) => {
+  uTime.value = elapsed
+  csgMesh?.applyMatrix4(rotateMatrix)
+  highlightCube.applyMatrix4(rotateMatrix)
+})
 
 onMounted(async () => {
   await nextTick()
@@ -266,23 +257,12 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
+  // three 侧资源由 useThree 的 dispose 递归释放
+  sceneRef = null
+  csgMesh = null
   if (cesiumViewer) {
     cesiumViewer.destroy()
     cesiumViewer = null
-  }
-  if (animationFrameId !== null) {
-    cancelAnimationFrame(animationFrameId)
-  }
-  if (csgMesh && scene.value) {
-    scene.value.remove(csgMesh)
-    csgMesh.geometry.dispose()
-    ;(csgMesh.material as THREE.Material).dispose()
-    csgMesh = null
-  }
-  if (scene.value) {
-    scene.value.remove(highlightCube)
-    scene.value.remove(ambientLight)
-    scene.value.remove(directionalLight)
   }
 })
 </script>
