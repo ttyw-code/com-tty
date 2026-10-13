@@ -11,7 +11,7 @@ const isShowNav = computed(() => {
 </script>
 
 <template>
-  <RouterLink class="home-float" to="/home" aria-label="返回主页">
+  <RouterLink class="home-float" :to="{ name: 'home' }" aria-label="返回主页">
     <svg-icon name="return" width="20px" height="20px" />
   </RouterLink>
   <div class="shortcut-tip">按 Ctrl + K 打开全局搜索</div>
@@ -37,18 +37,18 @@ main {
   z-index: 10000;
   padding: 8px;
   border-radius: 8px;
-  background: var(--surface, #ffffff);
-  color: var(--text, #0f172a);
-  border: 1px solid var(--border, #e2e8f0);
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
   text-decoration: none;
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
+  box-shadow: var(--shadow-sm);
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
 .home-float:hover {
-  color: var(--primary, #2f54eb);
+  color: var(--accent);
 }
 
 .shortcut-tip {
@@ -56,12 +56,13 @@ main {
   top: 10px;
   left: 5rem;
   z-index: 11000;
-  background: rgba(15, 23, 42, 0.9);
-  color: #fff;
+  background: var(--surface-2);
+  color: var(--muted);
+  border: 1px solid var(--border);
   font-size: 0.85rem;
   padding: 6px 10px;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow-sm);
   pointer-events: none;
 }
 </style>

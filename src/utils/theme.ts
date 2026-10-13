@@ -10,57 +10,45 @@ function isBrowser(): boolean {
   return typeof window !== 'undefined' && typeof document !== 'undefined'
 }
 
+// 全站默认使用「全局搜索」色系（暗色档）
+const DEFAULT_THEME: Theme = 'dark'
+
 export function applySavedTheme(): void {
   if (!isBrowser()) return
-  const saved = (localStorage.getItem(THEME_KEY) as Theme) || 'light'
-  if (saved === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark')
-  } else {
-    document.documentElement.removeAttribute('data-theme')
-  }
+  const saved = (localStorage.getItem(THEME_KEY) as Theme) || DEFAULT_THEME
+  document.documentElement.setAttribute('data-theme', saved)
 }
 
 export function setTheme(theme: Theme): void {
   if (!isBrowser()) return
-  if (theme === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark')
-  } else {
-    document.documentElement.removeAttribute('data-theme')
-  }
+  document.documentElement.setAttribute('data-theme', theme)
   try {
     localStorage.setItem(THEME_KEY, theme)
-  } catch (e) {
+  } catch {
     // ignore storage errors
   }
   // notify listeners
   listeners.forEach((fn) => {
     try {
       fn(theme)
-    } catch (e) {
+    } catch {
       // swallow
     }
   })
 }
 
 export function toggleTheme(): Theme {
-  if (!isBrowser()) return 'light'
-  const current =
-    document.documentElement.getAttribute('data-theme') === 'dark'
-      ? 'dark'
-      : 'light'
-  const next: Theme = current === 'dark' ? 'light' : 'dark'
+  if (!isBrowser()) return DEFAULT_THEME
+  const next: Theme = getTheme() === 'dark' ? 'light' : 'dark'
   setTheme(next)
   return next
 }
 
 export function getTheme(): Theme {
-  if (!isBrowser()) return 'light'
-  return (
-    (localStorage.getItem(THEME_KEY) as Theme) ||
-    (document.documentElement.getAttribute('data-theme') === 'dark'
-      ? 'dark'
-      : 'light')
-  )
+  if (!isBrowser()) return DEFAULT_THEME
+  const attr = document.documentElement.getAttribute('data-theme')
+  if (attr === 'light' || attr === 'dark') return attr
+  return (localStorage.getItem(THEME_KEY) as Theme) || DEFAULT_THEME
 }
 
 export default {

@@ -163,7 +163,8 @@
   
   select {
     -webkit-appearance: none;
-    background-color: #fff;
+    background-color: var(--surface, #ffffff);
+    color: var(--text, #1a1a1a);
   }
   
   table {

@@ -1,7 +1,7 @@
 import globals from 'globals'
 import pluginJs from '@eslint/js'
 import tseslint from 'typescript-eslint'
-// import pluginVue from 'eslint-plugin-vue'
+import pluginVue from 'eslint-plugin-vue'
 
 export default [
   { ignores: ['.dist/*', '**/node_modules/'] },
@@ -9,18 +9,19 @@ export default [
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
-  // ...pluginVue.configs['flat/essential'],
+  ...pluginVue.configs['flat/essential'],
   {
     files: ['**/*.vue'],
     languageOptions: { parserOptions: { parser: tseslint.parser } },
   },
   {
     rules: {
+      // 未定义变量的检查交给 TypeScript。no-undef 不读 types/auto/auto-imports.d.ts，
+      // 会把 auto-import 注入的 onMounted / onUnmounted 等全局 API 判成未定义
+      'no-undef': 'off',
       'no-var': 'error', // 要求使用 let 或 const 而不是 var
       'no-multiple-empty-lines': ['warn', { max: 1 }], // 不允许多个空行
-      // eslint-disable-next-line no-undef
       'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-      // eslint-disable-next-line no-undef
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
       'no-unexpected-multiline': 'error', // 禁止空余的多行
       'no-useless-escape': 'off', // 禁止不必要的转义字符

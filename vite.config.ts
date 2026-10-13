@@ -16,6 +16,7 @@ export default defineConfig(({ command }) => {
     },
     define: {
       global: 'window',
+      CESIUM_BASE_URL: JSON.stringify('/cesium/'),
     },
     plugins: [
       autoImport({
