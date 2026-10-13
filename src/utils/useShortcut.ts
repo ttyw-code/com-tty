@@ -7,13 +7,16 @@ const state = reactive({
   lastTriggered: '',
 })
 
+// 快捷键回调签名：无参数调用，不关心返回值
+type ShortcutAction = () => void
+
 // 存放回调函数的 Map (不需要响应式，避免性能损耗)
-const actionsMap = new Map<string, Function>()
+const actionsMap = new Map<string, ShortcutAction>()
 
 // 2. 导出组合式函数
 export function useShortcutManager() {
   // 注册快捷键
-  const register = (key: string, action: Function) => {
+  const register = (key: string, action: ShortcutAction) => {
     actionsMap.set(key, action)
     state.activeKeys.add(key)
 

@@ -24,14 +24,14 @@ export function setTheme(theme: Theme): void {
   document.documentElement.setAttribute('data-theme', theme)
   try {
     localStorage.setItem(THEME_KEY, theme)
-  } catch (e) {
+  } catch {
     // ignore storage errors
   }
   // notify listeners
   listeners.forEach((fn) => {
     try {
       fn(theme)
-    } catch (e) {
+    } catch {
       // swallow
     }
   })

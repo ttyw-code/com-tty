@@ -52,7 +52,7 @@ async function getUsers(): Promise<void> {
     if (res && Array.isArray(res.data)) {
       users.value = res.data
     }
-  } catch (error) {
+  } catch {
     console.error('Error fetching user:')
   }
 }
@@ -66,7 +66,7 @@ async function createAUser(): Promise<void> {
     }
     const res = await request.post('api/users', USER)
     console.log('res:', res)
-  } catch (error) {
+  } catch {
     console.error('Error creating user:')
   }
 }
