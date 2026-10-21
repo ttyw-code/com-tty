@@ -11,10 +11,14 @@ const isShowNav = computed(() => {
 </script>
 
 <template>
-  <RouterLink class="home-float" :to="{ name: 'home' }" aria-label="返回主页">
+  <RouterLink
+    v-if="!isShowNav"
+    class="home-back"
+    :to="{ name: 'home' }"
+    aria-label="返回主页"
+  >
     <svg-icon name="return" width="20px" height="20px" />
   </RouterLink>
-  <div class="shortcut-tip">按 Ctrl + K 打开全局搜索</div>
   <Nav v-if="isShowNav"></Nav>
   <main>
     <RouterView />
@@ -30,39 +34,22 @@ main {
   overflow: auto;
 }
 
-.home-float {
+.home-back {
   position: fixed;
-  top: 12px;
-  left: 12px;
-  z-index: 10000;
+  top: 20px;
+  left: 20px;
   padding: 8px;
+  z-index: 10;
   border-radius: 8px;
-  background: var(--surface);
-  color: var(--text);
   border: 1px solid var(--border);
   text-decoration: none;
   box-shadow: var(--shadow-sm);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.home-float:hover {
-  color: var(--accent);
-}
-
-.shortcut-tip {
-  position: fixed;
-  top: 10px;
-  left: 5rem;
-  z-index: 11000;
-  background: var(--surface-2);
+  transition: 0.2s all;
+  // 与导航里的主题切换图标同色
   color: var(--muted);
-  border: 1px solid var(--border);
-  font-size: 0.85rem;
-  padding: 6px 10px;
-  border-radius: 8px;
-  box-shadow: var(--shadow-sm);
-  pointer-events: none;
+}
+
+.home-back:hover {
+  scale: 1.1;
 }
 </style>

@@ -10,108 +10,21 @@
         >
           {{ item.label }}
         </RouterLink>
-        <!-- 主题切换按钮 -->
-        <button
-          class="theme-toggle"
-          @click="onToggle"
-          :aria-label="ariaLabel"
-          title="切换主题"
-        >
-          <span v-if="current === 'light'" class="icon-sun" aria-hidden="true">
-            <!-- sun icon -->
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 4V2"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M12 22v-2"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M4.93 4.93L3.51 3.51"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M20.49 20.49l-1.42-1.42"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M2 12H4"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M20 12h2"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M4.93 19.07L3.51 20.49"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M20.49 3.51l-1.42 1.42"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <circle
-                cx="12"
-                cy="12"
-                r="3"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </span>
-          <span v-else class="icon-moon" aria-hidden="true">
-            <!-- moon icon -->
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </span>
-        </button>
+        <!-- 主题切换与返回：整组靠导航栏右侧 -->
+        <div class="site-header__actions">
+          <!-- 主题切换按钮：图标取自 src/assets/icons 下的 light.svg / dark.svg（图标名与主题名一致） -->
+          <button
+            class="theme-toggle"
+            @click="onToggle"
+            :aria-label="ariaLabel"
+            title="切换主题"
+          >
+            <svg-icon :name="current" width="16px" height="16px" />
+          </button>
+          <RouterLink class="back" :to="{ name: 'home' }" aria-label="返回主页">
+            <svg-icon name="return" width="20px" height="20px" />
+          </RouterLink>
+        </div>
       </nav>
     </header>
   </div>
@@ -168,6 +81,7 @@ onBeforeUnmount(() => {
   right: 0;
   z-index: 9999;
 }
+
 .site-header__nav {
   flex: 1;
   position: relative;
@@ -193,6 +107,15 @@ onBeforeUnmount(() => {
   }
 }
 
+// 主题切换 + 返回主页：margin-left: auto 把整组推到导航栏最右侧
+.site-header__actions {
+  margin-left: auto;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 .site-header {
   a {
     text-decoration: none;
@@ -200,6 +123,7 @@ onBeforeUnmount(() => {
     color: inherit;
     mix-blend-mode: normal;
     transition: color 160ms ease;
+
     &:hover {
       color: var(--accent);
     }
@@ -207,31 +131,16 @@ onBeforeUnmount(() => {
 }
 
 .theme-toggle {
-  margin-left: 12px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: 1px solid var(--border);
   color: var(--muted);
   padding: 6px 8px;
   border-radius: 6px;
   width: 40px;
   height: 36px;
-  transition:
-    color 160ms ease,
-    background-color 160ms ease;
+  transition: 160ms all;
 }
 
-.theme-toggle:hover {
-  color: var(--accent);
-  background: var(--surface-2);
-}
-.theme-toggle svg {
-  display: block;
-}
-.theme-toggle .icon-moon,
-.theme-toggle .icon-sun {
-  display: inline-flex;
+.theme-toggle:hover,
+.back:hover {
+  scale: 1.2;
 }
 </style>
