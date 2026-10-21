@@ -110,25 +110,20 @@
 
     <div class="small3d__viewers">
       <div ref="container" class="small3d__canvas"></div>
-      <div ref="cesiumContainer" class="small3d__cesium"></div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onUnmounted, onMounted, reactive, nextTick } from 'vue'
+import { ref, watch, reactive } from 'vue'
 import { useThree } from '@/utils/useThree'
 import * as THREE from 'three'
 import { CSG } from 'three-csg-ts'
-import { loadGLTFModel, loadObjModel } from './3DUtils/loadModel'
+import { loadGLTFModel } from './3DUtils/loadModel'
 import vert from './shader.vert.glsl'
 import frag from './shader.frag.glsl'
-import * as Cesium from 'cesium'
-import 'cesium/Build/Cesium/Widgets/widgets.css'
 
 const container = ref<HTMLElement | null>(null)
-const cesiumContainer = ref<HTMLElement | null>(null)
-let cesiumViewer: Cesium.Viewer | null = null
 const params = reactive({
   boxSize: 2,
   sphereRadius: 1.3,
@@ -214,30 +209,30 @@ const rebuildCSG = () => {
 }
 
 const rotateMatrix = new THREE.Matrix4()
-rotateMatrix.makeRotationY(0.01)
+rotateMatrix.makeRotationX(0.01)
 
 const uTime = { value: 0 }
 
-const addR8ToScene = (scene: THREE.Scene) => {
-  loadObjModel(`${import.meta.env.BASE_URL}map/audi-r8.obj`)
-    .then((obj) => {
-      obj.scale.multiplyScalar(0.001)
-      obj.position.set(5, 0.1, 0.1)
-      obj.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-          child.material = new THREE.ShaderMaterial({
-            uniforms: { uTime },
-            vertexShader: vert,
-            fragmentShader: frag,
-          })
-        }
-      })
-      scene.add(obj)
-    })
-    .catch((error) => {
-      console.error('Failed to load OBJ model:', error)
-    })
-}
+// const addR8ToScene = (scene: THREE.Scene) => {
+//   loadObjModel(`${import.meta.env.BASE_URL}map/audi-r8.obj`)
+//     .then((obj) => {
+//       obj.scale.multiplyScalar(0.001)
+//       obj.position.set(5, 0.1, 0.1)
+//       obj.traverse((child) => {
+//         if (child instanceof THREE.Mesh) {
+//           child.material = new THREE.ShaderMaterial({
+//             uniforms: { uTime },
+//             vertexShader: vert,
+//             fragmentShader: frag,
+//           })
+//         }
+//       })
+//       scene.add(obj)
+//     })
+//     .catch((error) => {
+//       console.error('Failed to load OBJ model:', error)
+//     })
+// }
 
 const addTriangleScene = (scene: THREE.Scene) => {
   loadGLTFModel(`${import.meta.env.BASE_URL}map/triangle.gltf`)
@@ -249,7 +244,6 @@ const addTriangleScene = (scene: THREE.Scene) => {
       console.error('Failed to load GLTF model:', error)
     })
 }
-
 watch(
   () => params,
   () => {
@@ -264,7 +258,7 @@ onReady(({ scene }) => {
   scene.add(directionalLight)
   scene.add(highlightCube)
   rebuildCSG()
-  addR8ToScene(scene)
+  // addR8ToScene(scene)
   addTriangleScene(scene)
 })
 
@@ -272,39 +266,6 @@ onBeforeRender(({ elapsed }) => {
   uTime.value = elapsed
   csgMesh?.applyMatrix4(rotateMatrix)
   highlightCube.applyMatrix4(rotateMatrix)
-})
-
-onMounted(async () => {
-  await nextTick()
-  if (cesiumContainer.value) {
-    cesiumViewer = new Cesium.Viewer(cesiumContainer.value, {
-      timeline: false,
-      animation: false,
-      baseLayerPicker: false,
-      fullscreenButton: false,
-      geocoder: false,
-      homeButton: false,
-      infoBox: false,
-      navigationHelpButton: false,
-      sceneModePicker: false,
-      selectionIndicator: false,
-      baseLayer: new Cesium.ImageryLayer(
-        new Cesium.OpenStreetMapImageryProvider({
-          url: 'https://tile.openstreetmap.org/',
-        }),
-      ),
-    })
-  }
-})
-
-onUnmounted(() => {
-  // three 侧资源由 useThree 的 dispose 递归释放
-  sceneRef = null
-  csgMesh = null
-  if (cesiumViewer) {
-    cesiumViewer.destroy()
-    cesiumViewer = null
-  }
 })
 </script>
 
@@ -429,22 +390,12 @@ onUnmounted(() => {
   height: 100%;
   min-height: 400px;
   display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-}
-
-.small3d__canvas,
-.small3d__cesium {
-  flex: 1;
-  border-radius: 0.5rem;
-  overflow: hidden;
 }
 
 .small3d__canvas {
+  flex: 1;
+  border-radius: 0.5rem;
+  overflow: hidden;
   background: var(--surface-2);
-}
-
-.small3d__cesium {
-  background: var(--bg);
 }
 </style>

@@ -46,10 +46,10 @@ export const routes: RouteRecordRaw[] = [
     meta: { title: 'Small 3D', nav: true, hideNav: true },
   },
   {
-    path: '/ai',
-    name: 'ai',
-    component: () => import('@/views/ai/index.vue'),
-    meta: { title: 'Gemini', nav: true, hideNav: true },
+    path: '/cesium',
+    name: 'cesium',
+    component: () => import('@/views/cesium/index.vue'),
+    meta: { title: 'Cesium', nav: true, hideNav: true },
   },
   {
     path: '/:pathMatch(.*)*',
