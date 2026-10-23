@@ -46,6 +46,12 @@ export const routes: RouteRecordRaw[] = [
     meta: { title: 'Small 3D', nav: true, hideNav: true },
   },
   {
+    path: '/car',
+    name: 'car',
+    component: () => import('@/views/car/index.vue'),
+    meta: { title: 'R8', nav: true, hideNav: true },
+  },
+  {
     path: '/cesium',
     name: 'cesium',
     component: () => import('@/views/cesium/index.vue'),
