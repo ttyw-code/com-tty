@@ -48,3 +48,9 @@ export async function PromiseMain() {
   await drain()
   console.log(out)
 }
+
+if (navigator.gpu) {
+  console.log('支持WebGPU')
+} else {
+  console.log('不支持WebGPU')
+}
