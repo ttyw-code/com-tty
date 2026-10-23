@@ -116,21 +116,33 @@
 
 <script setup lang="ts">
 import { ref, watch, reactive } from 'vue'
-import { useThree } from '@/utils/useThree'
+import { useThree } from '@/utils/3DUtils/useThree'
+import {
+  createGridMaterial,
+  csgBoxMaterial,
+  csgSphereMaterial,
+  highlightMaterial,
+} from '@/utils/3DUtils/threeMaterials'
 import * as THREE from 'three'
 import { CSG } from 'three-csg-ts'
-import { loadGLTFModel } from './3DUtils/loadModel'
-import vert from './shader.vert.glsl'
-import frag from './shader.frag.glsl'
 
+type CSGOperationType = 'subtract' | 'union' | 'intersect'
+interface CSGParams {
+  boxSize: number
+  sphereRadius: number
+  offsetX: number
+  offsetY: number
+  offsetZ: number
+  operation: CSGOperationType
+}
 const container = ref<HTMLElement | null>(null)
-const params = reactive({
+const params = reactive<CSGParams>({
   boxSize: 2,
   sphereRadius: 1.3,
   offsetX: 0.5,
   offsetY: 0.5,
   offsetZ: 0.5,
-  operation: 'subtract' as 'subtract' | 'union' | 'intersect',
+  operation: 'subtract',
 })
 
 let sceneRef: THREE.Scene | null = null
@@ -140,11 +152,6 @@ const { onReady, onBeforeRender } = useThree(container, {
   cameraPosition: { x: 5, y: 5, z: 5 },
 })
 
-const highlightMaterial = new THREE.MeshStandardMaterial({
-  color: 0x8a9fff,
-  metalness: 0.1,
-  roughness: 0.4,
-})
 const highlightCube = new THREE.Mesh(
   new THREE.BoxGeometry(1, 1, 1),
   highlightMaterial,
@@ -156,23 +163,26 @@ const ambientLight = new THREE.AmbientLight(lightColor, 0.4)
 const directionalLight = new THREE.DirectionalLight(lightColor, 1)
 directionalLight.position.set(5, 15, 7)
 
+/**
+ * 参考网格：每格 1 个单位，平面铺到 300×300（半径 150），远超视野范围。
+ * 下移到 CSG 立方体底面（y = -1）当"地面"。
+ * 尺寸必须大于雾的 far（120），否则会看到网格边界在半空中突然截断。
+ */
+const GRID_SIZE = 300
+const GRID_Y = -1
+
+/** 雾与场景底色一致：远处网格融进背景，像无限延伸的地面 */
+const SCENE_FOG = { color: 0x20232a, near: 40, far: 120 }
+
 let csgMesh: THREE.Mesh | null = null
 const createCSGMesh = () => {
   const box = new THREE.Mesh(
     new THREE.BoxGeometry(params.boxSize, params.boxSize, params.boxSize),
-    new THREE.MeshStandardMaterial({
-      color: 0x2f54eb,
-      metalness: 0.2,
-      roughness: 0.5,
-    }),
+    csgBoxMaterial,
   )
   const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(params.sphereRadius, 48, 48),
-    new THREE.MeshStandardMaterial({
-      color: 0xffbb55,
-      metalness: 0.2,
-      roughness: 0.5,
-    }),
+    csgSphereMaterial,
   )
   sphere.position.set(params.offsetX, params.offsetY, params.offsetZ)
 
@@ -185,14 +195,6 @@ const createCSGMesh = () => {
     csgResult = CSG.intersect(box, sphere)
   }
 
-  csgResult.material = new THREE.ShaderMaterial({
-    uniforms: { uTime },
-    vertexShader: vert,
-    fragmentShader: frag,
-  })
-  csgResult.castShadow = true
-  csgResult.receiveShadow = true
-
   return csgResult
 }
 
@@ -200,8 +202,9 @@ const rebuildCSG = () => {
   if (!sceneRef) return
   if (csgMesh) {
     sceneRef.remove(csgMesh)
+    // 只释放几何体。材质是 threeMaterials 里导出的公共实例，
+    // 在这里 dispose 会把它从所有引用它的 Mesh 上一起抽走
     csgMesh.geometry.dispose()
-    ;(csgMesh.material as THREE.Material).dispose()
     csgMesh = null
   }
   csgMesh = createCSGMesh()
@@ -211,39 +214,6 @@ const rebuildCSG = () => {
 const rotateMatrix = new THREE.Matrix4()
 rotateMatrix.makeRotationX(0.01)
 
-const uTime = { value: 0 }
-
-// const addR8ToScene = (scene: THREE.Scene) => {
-//   loadObjModel(`${import.meta.env.BASE_URL}map/audi-r8.obj`)
-//     .then((obj) => {
-//       obj.scale.multiplyScalar(0.001)
-//       obj.position.set(5, 0.1, 0.1)
-//       obj.traverse((child) => {
-//         if (child instanceof THREE.Mesh) {
-//           child.material = new THREE.ShaderMaterial({
-//             uniforms: { uTime },
-//             vertexShader: vert,
-//             fragmentShader: frag,
-//           })
-//         }
-//       })
-//       scene.add(obj)
-//     })
-//     .catch((error) => {
-//       console.error('Failed to load OBJ model:', error)
-//     })
-// }
-
-const addTriangleScene = (scene: THREE.Scene) => {
-  loadGLTFModel(`${import.meta.env.BASE_URL}map/triangle.gltf`)
-    .then((gltf) => {
-      gltf.position.set(-2, 0, -2)
-      scene.add(gltf)
-    })
-    .catch((error) => {
-      console.error('Failed to load GLTF model:', error)
-    })
-}
 watch(
   () => params,
   () => {
@@ -254,16 +224,27 @@ watch(
 
 onReady(({ scene }) => {
   sceneRef = scene
+
   scene.add(ambientLight)
   scene.add(directionalLight)
   scene.add(highlightCube)
+
+  // 格子平面：PlaneGeometry 默认躺在 XY 平面，绕 X 轴转 -90° 放平到 XZ
+  const grid = new THREE.Mesh(
+    new THREE.PlaneGeometry(GRID_SIZE, GRID_SIZE),
+    createGridMaterial(GRID_SIZE),
+  )
+  grid.rotation.x = -Math.PI / 2
+  grid.position.y = GRID_Y
+  scene.add(grid)
+
+  // 雾与背景同色：mipmap 已经把远处网格糊开，雾负责让最远处彻底融进底色
+  scene.fog = new THREE.Fog(SCENE_FOG.color, SCENE_FOG.near, SCENE_FOG.far)
+
   rebuildCSG()
-  // addR8ToScene(scene)
-  addTriangleScene(scene)
 })
 
-onBeforeRender(({ elapsed }) => {
-  uTime.value = elapsed
+onBeforeRender(() => {
   csgMesh?.applyMatrix4(rotateMatrix)
   highlightCube.applyMatrix4(rotateMatrix)
 })

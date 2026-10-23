@@ -1,10 +1,13 @@
 import * as THREE from 'three'
+import { defaultMaterial } from '@/utils/3DUtils/threeMaterials'
 
 const identity = (r: any) => r as THREE.Group
 
 const wrapGeom = (geom: THREE.BufferGeometry) => {
   const g = new THREE.Group()
-  g.add(new THREE.Mesh(geom, new THREE.MeshStandardMaterial()))
+  // 复用公共默认材质；要给某个模型单独调材质时，先 clone 一份再改，
+  // 直接改这里会把所有无材质模型一起改掉
+  g.add(new THREE.Mesh(geom, defaultMaterial))
   return g
 }
 
