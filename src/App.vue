@@ -20,7 +20,7 @@ const isShowNav = computed(() => {
     <svg-icon name="return" width="20px" height="20px" />
   </RouterLink>
   <Nav v-if="isShowNav"></Nav>
-  <main>
+  <main :class="{ 'has-nav': isShowNav }">
     <RouterView />
   </main>
   <GlobalSearch />
@@ -32,6 +32,12 @@ main {
   inset: 0;
   display: flex;
   overflow: auto;
+
+  // 导航是 fixed 覆盖层，顶部态还是透明的：给内容让出导航高度，避免首屏被压住。
+  // hideNav 的沉浸式页面（/small3d /car /cesium）不补，否则画面会少一截
+  &.has-nav {
+    padding-top: 64px;
+  }
 }
 
 .home-back {
