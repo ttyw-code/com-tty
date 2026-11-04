@@ -58,6 +58,12 @@ export const routes: RouteRecordRaw[] = [
     meta: { title: 'Cesium', nav: true, hideNav: true },
   },
   {
+    path: '/flotation',
+    name: 'flotation',
+    component: () => import('@/views/flotation/index.vue'),
+    meta: { title: 'Flotation', nav: true, hideNav: true },
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: () => import('@/views/not-found/index.vue'),
