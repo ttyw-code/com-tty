@@ -55,7 +55,7 @@ onReady(async ({ scene, renderer, controls }) => {
   }
 
   try {
-    const car = await loadObjModel(`${import.meta.env.BASE_URL}map/r8.obj`)
+    const car = await loadObjModel(`${import.meta.env.BASE_URL}3dModel/r8.obj`)
 
     car.scale.setScalar(0.001)
     car.updateMatrixWorld(true)

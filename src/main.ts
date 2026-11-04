@@ -1,5 +1,3 @@
-// import './style.css';
-
 import App from './App.vue'
 // 全局样式（包含主题变量）：
 import '@/styles/index.scss'
@@ -19,38 +17,21 @@ applySavedTheme()
 
 import gloablComponent from '@/components/index'
 
+import { CallMain } from '@/common/ndoe/call.ts'
+
 const app = createApp(App).use(router).use(store)
 app.use(ElementPlus, {
   locale: zhCn,
 })
 
 app.use(gloablComponent)
-console.log('---------------------start')
-void PromiseMain()
-console.log('---------------------end')
 app.mount('#app')
-
-export async function PromiseMain() {
-  const drain = () => new Promise((r) => setTimeout(r, 0))
-  const out = [] as any[]
-  const L = (s: string) => out.push(s)
-
-  const p = Promise.resolve('v')
-  L('sync')
-  ;(async () => {
-    await p
-    L('await 恢复')
-  })()
-  p.then(() => L('then'))
-  queueMicrotask(() => L('queueMicrotask'))
-  setTimeout(() => L('setTimeout 宏任务'))
-
-  await drain()
-  console.log(out)
-}
 
 if (navigator.gpu) {
   console.log('支持WebGPU')
 } else {
   console.log('不支持WebGPU')
 }
+
+// 统一调用实验代码
+void CallMain()
