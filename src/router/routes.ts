@@ -64,6 +64,12 @@ export const routes: RouteRecordRaw[] = [
     meta: { title: 'Flotation', nav: true, hideNav: true },
   },
   {
+    path: '/keyboard',
+    name: 'keyboard',
+    component: () => import('@/views/keyboard/index.vue'),
+    meta: { title: 'Keyboard', nav: true, hideNav: true },
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: () => import('@/views/not-found/index.vue'),
