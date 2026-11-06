@@ -11,9 +11,7 @@
         </li>
       </ul>
     </div>
-    <el-button class="button" type="primary" @click="createAUser">
-      创建用户
-    </el-button>
+    <button class="button" type="button" @click="createAUser">创建用户</button>
   </div>
 </template>
 

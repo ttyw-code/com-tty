@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
 //创建axios实例
 const request = axios.create({
   // baseURL: import.meta.env.VITE_APP_BASE_API,
@@ -34,10 +33,7 @@ request.interceptors.response.use(
       default:
         msg = '无网络'
     }
-    ElMessage({
-      type: 'error',
-      message: msg,
-    })
+    console.error(msg, 'error')
     return Promise.reject(error)
   },
 )

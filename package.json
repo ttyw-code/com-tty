@@ -23,7 +23,6 @@
     "animejs": "^4.5.0",
     "axios": "^1.7.7",
     "cesium": "^1.143.0",
-    "element-plus": "^2.8.6",
     "mockjs": "^1.1.0",
     "sockjs-client": "^1.6.1",
     "three": "^0.168.0",

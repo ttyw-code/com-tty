@@ -3,11 +3,6 @@ import App from './App.vue'
 import '@/styles/index.scss'
 import router from '@/router'
 import store from './store'
-//引入element-plus
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
-// @ts-expect-error element-plus 未提供 zh-cn.mjs 的类型声明
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 import 'virtual:svg-icons-register' //@use   <!-- <svg-icon name="window" width="100px" height="100px"></svg-icon> -->
 
@@ -20,9 +15,6 @@ import gloablComponent from '@/components/index'
 import { CallMain } from '@/common/ndoe/call.ts'
 
 const app = createApp(App).use(router).use(store)
-app.use(ElementPlus, {
-  locale: zhCn,
-})
 
 app.use(gloablComponent)
 app.mount('#app')
