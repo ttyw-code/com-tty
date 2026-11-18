@@ -63,6 +63,13 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('@/views/flotation/index.vue'),
     meta: { title: 'Flotation', nav: true, hideNav: true },
   },
+
+  {
+    path: '/null-scene',
+    name: 'null-scene',
+    component: () => import('@/views/null-scene/index.vue'),
+    meta: { title: 'Null Scene', nav: true, hideNav: true },
+  },
   {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
